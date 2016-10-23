@@ -1,0 +1,9 @@
+3 - Commit 23 Oct ~19:04
+- adaugat fisierele readme.txt si changelog.txt 
+
+2 - Commit 15 Oct 2016 18:50
+- creeat proiectul nativ
+
+1 - Commit 15 Oct 2016 18:17:
+- configurat aplicatia react
+- am reusit doar sa fac aplicatia sa buildeze (nu contine nimic)
