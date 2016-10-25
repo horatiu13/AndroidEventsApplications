@@ -1,0 +1,1 @@
+cu cacatu asta se "buildeaza" serveru: node --harmony index.js
