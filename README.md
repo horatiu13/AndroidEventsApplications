@@ -21,7 +21,7 @@ EventReact  - contine aplicatia folosind react
         
 - vor exista 2 entitati (principale):
     * User:
-        - id:           identificator unic
+        - username:     identificator unic
         - name:         nume + prenume
         - mail:         mailul cu care s-a inregistrat
         - password:     hash-ul parolei

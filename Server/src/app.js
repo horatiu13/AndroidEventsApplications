@@ -1,205 +1,96 @@
-const Koa = require('koa')
-    , app = new Koa()
-    , server = require('http').createServer(app.callback())
-    , io = require('socket.io')(server)
-    , cors = require('koa-cors')
-    , convert = require('koa-convert')
-    , bodyparser = require('koa-bodyparser')
-    , router = require('koa-router')()
-    , datastore = require('nedb-promise')
-    , noteStore = datastore({filename: '../notes.json', autoload: true});
+import {getLogger, timingLogger, errorHandler} from './utils';
+import {AuthRouter, jwtConfig} from './auth';
+import {EventRouter} from './event';
 
-let notesLastUpdate = null;
+import Koa from 'koa';
+import cors from 'koa-cors';
+import convert from 'koa-convert';
+import bodyParser from 'koa-bodyparser';
+import Router from 'koa-router';
+import koaJwt from 'koa-jwt';
+import http from 'http';
+import socketIo from 'socket.io';
+import dataStore from 'nedb-promise';
 
-app.use(async(ctx, next) =>
-{ //logger
-    const start = new Date();
-    await next();
-    console.log(`${ctx.method} ${ctx.url} - ${new Date() - start}ms`);
-});
 
-app.use(async(ctx, next) =>
-{ //error handler
-    try
-    {
-        await next();
-    }
-    catch (err)
-    {
-        setIssueRes(ctx.response, 500, [{error: err.message || 'Unexpected error'}]);
-    }
-});
+// baza de date
+const eventStore = dataStore({filename: 'events.json', autoload: true});
+const userStore  = dataStore({filename: 'users.json', autoload: true});
 
-app.use(bodyparser());
+// program
+const app = new Koa();
+// const router = new Router();
+const server = http.createServer(app.callback());
+const io = socketIo(server);
+
+// logger
+const log = getLogger('app');
+app.use(timingLogger);
+app.use(errorHandler);
+app.use(bodyParser());
 app.use(convert(cors()));
 
-const NOTE = '/Note'
-    , LAST_MODIFIED = 'Last-Modified'
-    , ETAG = 'ETag'
-    , OK = 200
-    , CREATED = 201
-    , NO_CONTENT = 204
-    , NOT_MODIFIED = 304
-    , BAD_REQUEST = 400
-    , NOT_FOUND = 404
-    , METHOD_NOT_ALLOWED = 405
-    , CONFLICT = 409;
 
-router
-    .get(NOTE, async(ctx) =>
-    {
-        let res = ctx.response;
-        let lastModified = ctx.request.get(LAST_MODIFIED);
-        if (lastModified && notesLastUpdate && notesLastUpdate <= new Date(lastModified).getTime())
-        {
-            res.status = NOT_MODIFIED; //304 Not Modified (the client can use the cached data)
-        }
-        else
-        {
-            res.body = await noteStore.find({});
-            if (!notesLastUpdate)
-            {
-                notesLastUpdate = Date.now();
-            }
-            res.set({[LAST_MODIFIED]: new Date(notesLastUpdate)});
-        }
-    })
-    .get([NOTE, ':id'].join('/'), async(ctx) =>
-    {
-        let note = await noteStore.findOne({_id: ctx.params.id});
-        let res = ctx.response;
-        if (note)
-        {
-            setNoteRes(res, OK, note); //200 Ok
-        }
-        else
-        {
-            setIssueRes(res, NOT_FOUND, [{warning: 'Note not found'}]); //404 Not Found (if you know the resource was deleted, then return 410 Gone)
-        }
-    })
-    .post(NOTE, async(ctx) =>
-    {
-        let note = ctx.request.body;
-        let res = ctx.response;
-        if (note.text)
-        { //validation
-            await createNote(res, note);
-        }
-        else
-        {
-            setIssueRes(res, BAD_REQUEST, [{error: 'Text is missing'}]); //400 Bad Request
-        }
-    })
-    .put([NOTE, ':id'].join('/'), async(ctx) =>
-    {
-        let note = ctx.request.body;
-        let id = ctx.params.id;
-        let noteId = note._id;
-        let res = ctx.response;
-        if (noteId && noteId != id)
-        {
-            setIssueRes(res, BAD_REQUEST, [{error: 'Param id and body _id should be the same'}]); //400 Bad Request
-            return;
-        }
-        if (!note.text)
-        {
-            setIssueRes(res, BAD_REQUEST, [{error: 'Text is missing'}]); //400 Bad Request
-            return;
-        }
-        if (!noteId)
-        {
-            await createNote(res, note);
-        }
-        else
-        {
-            let persistedNote = await noteStore.findOne({_id: id});
-            if (persistedNote)
-            {
-                let noteVersion = parseInt(ctx.request.get(ETAG)) || note.version;
-                if (!noteVersion)
-                {
-                    setIssueRes(res, BAD_REQUEST, [{error: 'No version specified'}]); //400 Bad Request
-                }
-                else if (noteVersion < persistedNote.version)
-                {
-                    setIssueRes(res, CONFLICT, [{error: 'Version conflict'}]); //409 Conflict
-                }
-                else
-                {
-                    note.version = noteVersion + 1;
-                    note.updated = Date.now();
-                    let updatedCount = await noteStore.update({_id: id}, note);
-                    notesLastUpdate = note.updated;
-                    if (updatedCount == 1)
-                    {
-                        setNoteRes(res, OK, note); //200 Ok
-                        io.emit('note-updated', note);
-                    }
-                    else
-                    {
-                        setIssueRes(res, METHOD_NOT_ALLOWED, [{error: 'Note no longer exists'}]); //405 Method Not Allowed
-                    }
-                }
-            }
-            else
-            {
-                setIssueRes(res, METHOD_NOT_ALLOWED, [{error: 'Note no longer exists'}]); //Method Not Allowed
-            }
-        }
-    })
-    .del([NOTE, ':id'].join('/'), async(ctx) =>
-    {
-        let id = ctx.params.id;
-        await noteStore.remove({_id: id});
-        io.emit('note-deleted', {_id: id})
-        notesLastUpdate = Date.now();
-        ctx.response.status = NO_CONTENT; //204 No content (even if the resource was already deleted), or 200 Ok
-    });
+// routes
+const apiUrl = '/api';
 
-const setIssueRes = (res, status, issue) =>
-{
-    res.body = {issue: issue};
-    res.status = status; //Bad Request
-}
+log('Starting to config public routes');
+const authApi = new Router({prefix: apiUrl});
+authApi.use('/auth', new AuthRouter({userStore, io}).routes());
+app.use(authApi.routes()).use(authApi.allowedMethods());
 
-const createNote = async(res, note) =>
-{
-    note.version = 1;
-    note.updated = Date.now();
-    let insertedNote = await noteStore.insert(note);
-    notesLastUpdate = note.updated;
-    setNoteRes(res, CREATED, insertedNote); //201 Created
-    io.emit('note-created', insertedNote);
-}
+log('Starting to config private routes');
+app.use(convert(koaJwt(jwtConfig)));
+const protectedApi = new Router({prefix: apiUrl});
+protectedApi.use('/event', new EventRouter({eventStore, io}).routes());
+app.use(protectedApi.routes()).use(protectedApi.allowedMethods());
 
-const setNoteRes = (res, status, note) =>
-{
-    res.body = note;
-    res.set({[ETAG]: note.version, [LAST_MODIFIED]: new Date(note.updated)});
-    res.status = status; //200 Ok or 201 Created
-}
 
-app
-    .use(router.routes())
-    .use(router.allowedMethods());
-
+// io
 io.on('connection', (socket) =>
 {
-    console.log('client connected');
+    log('client connected');
     socket.on('disconnect', () =>
     {
-        console.log('client disconnected');
+        log('client disconnected');
     })
 });
 
+// incarcare program (adaugare in baza de date)
 (async() =>
 {
-    await noteStore.remove({});
-    for (let i = 0; i < 100; i++)
+    log('Am porniiitttttt!!!!!!!');
+    log('Starting to add some users...');
+    
+    let lstPass = ['o', 'org', 'u'];
+    let users = await userStore.find({});
+    
+    if (!users.length)
     {
-        await noteStore.insert({text: `Note ${i}`, status: "active", updated: Date.now()});
-        console.log(`Note ${i} added`);
+        for (let i = 0; i < lstPass.length; i++)
+        {
+            let pass = lstPass[i];
+            let user = await userStore.insert({username: pass, password: pass, name: 'Nume ' + pass, mail: pass + '@gmail.com', birthDate: Date.now(), city: 'Cluj ' + i.toString(), isOrg: i < 2 ? 1 : 0});
+            log(`org added ${JSON.stringify(user)}`);
+        }
     }
+    log(`There are at least ${lstPass.length} users in store now`);
+    
+    let events = await eventStore.find({});
+    if (events.length)
+    {
+        log(`There are already ${events.length} events`)
+    }
+    else
+    {
+        for (let i = 0; i < 5; i++)
+        {
+            let e = await eventStore.insert({name: `Event ${i}`, date: Date.now(), minAge:i, city:`City ${i}`, address: `Adderss ${i}`, maxCap: (i + 1) * 5, orgName: i % 2 ? 'o' : 'org', canEdit: false});
+            log(`Event ${JSON.stringify(e)} added`);
+        }
+    }
+    log(`There are 5 users in store now`);
+    
 })();
 
 server.listen(3000);

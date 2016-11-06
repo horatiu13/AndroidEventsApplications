@@ -1,44 +1,22 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import React, {Component} from 'react';
+import {AppRegistry} from 'react-native';
+import {createStore, applyMiddleware, combineReducers} from 'redux';
+import createLogger from 'redux-logger';
+import thunk from 'redux-thunk';
+import {eventReducer} from './src/event';
+import {authReducer} from './src/auth';
+import {Router} from './src/Router'
 
+const rootReducer = combineReducers({event: eventReducer, auth: authReducer});
+const store = createStore(rootReducer, applyMiddleware(thunk, createLogger()));
+// const store = createStore(rootReducer, applyMiddleware(thunk));
 
-'use strict';
-
-var React = require('react');
-var ReactNative = require(('react-native'));
-
-export default class EventsReact extends React.Component {
+export default class EventsReact extends Component {
     render() {
-//        return React.createElement(ReactNative.Text, {style: styles.text}, "Saluuuuuuut");
-    return <ReactNative.Text style={styles.text}>paaaaa</ReactNative.Text>;
+        return (
+            <Router store={store}/>
+        );
+    };
+};
 
-//    return (
-//      <View style={styles.container}>
-//        <Text style={styles.welcome}>
-//          Welcome to React Native!
-//        </Text>
-//        <Text style={styles.instructions}>
-//          To get started, edit index.ios.js
-//        </Text>
-//        <Text style={styles.instructions}>
-//          Press Cmd+R to reload,{'\n'}
-//          Cmd+D or shake for dev menu
-//        </Text>
-//      </View>
-//    );
-  }
-}
-
-const styles = ReactNative.StyleSheet.create({
-  text: {
-    color: 'black',
-    backgroundColor: 'white',
-    fontSize: 30,
-    margin: 80
-  }
-});
-
-ReactNative.AppRegistry.registerComponent('EventsReact', () => EventsReact);
+AppRegistry.registerComponent('EventsReact', () => EventsReact);
