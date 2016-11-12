@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, TextInput, StyleSheet, ActivityIndicator} from 'react-native';
+import {Text, View, TextInput, StyleSheet, ActivityIndicator, TouchableNativeFeedback} from 'react-native';
 import {login} from './service';
 import {getLogger, registerRightAction, issueText} from '../utils/utils';
 import styles from '../utils/styles';
@@ -7,6 +7,17 @@ import styles from '../utils/styles';
 const log = getLogger('Login');
 
 const LOGIN_ROUTE = 'auth/login';
+
+function __list(x)
+{
+    log(x);
+    log(`${x}`);
+    log('---------------------------------------------------');
+    for (let p in x)
+    {
+        log(`${p} :--: ${x[p]}`);
+    }
+}
 
 export class Login extends Component {
     static get routeName()
@@ -41,15 +52,25 @@ export class Login extends Component {
         return (
             <View style={styles.content}>
                 <ActivityIndicator animating={auth.inprogress} style={styles.activityIndicator} size="large"/>
+                
                 <Text>Username</Text>
                 <TextInput onChangeText={(text) => this.setState({...this.state, username: text})}/>
+                
                 <Text>Password</Text>
-                <TextInput onChangeText={(text) => this.setState({...this.state, password: text})}/>
+                <TextInput secureTextEntry={true} onChangeText={(text) => this.setState({...this.state, password: text})}/>
+    
+    
+                <TouchableNativeFeedback onPress={() => {this.props.onRegisterPress();}} background={TouchableNativeFeedback.SelectableBackground()}>
+                    <View style={{width: 150, height: 100, backgroundColor: 'red'}}>
+                        <Text style={{margin: 30}}>Register</Text>
+                    </View>
+                </TouchableNativeFeedback>
+    
                 {message && <Text>{message}</Text>}
             </View>
-        );
+            );
     }
-    
+
     componentDidMount()
     {
         log(`componentDidMount`);

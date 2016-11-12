@@ -5,9 +5,15 @@ const styles = StyleSheet.create({
         marginTop: 70,
         flex: 1
     },
+    
     activityIndicator: {
         height: 50
     },
+    
+    registerContent: {
+        marginTop: 70,
+        flex: 1
+    }
 });
 
 export default styles;

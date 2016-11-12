@@ -160,14 +160,6 @@ export class EventRouter extends Router
             });
     }
     
-    __List(x)
-    {
-        log('---------------------------------------------------');
-        for (let p in x)
-        {
-            log(`${p} :--: ${x[p]}`);
-        }
-    }
     
     setCanEditField(lst, ctx)
     {

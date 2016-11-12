@@ -1,1 +1,4 @@
-cu cacatu asta se "buildeaza" serveru: node --harmony index.js
+cu cacatu asta se "buildeaza" serveru:   node --harmony index.js
+client react:                            react-native run-android
+loguri (react?):                         react-native log-android
+"c:\Users\hlupean\AppData\Local\Android\sdk\AVD Manager.exe" 
