@@ -1,3 +1,4 @@
 {"username":"org","password":"org","name":"Nume org","mail":"org@gmail.com","birthDate":1478346285764,"city":"Cluj 1","isOrg":1,"_id":"18HOpdFT7OJY35Pg"}
 {"username":"u","password":"u","name":"Nume u","mail":"u@gmail.com","birthDate":1478346285767,"city":"Cluj 2","isOrg":0,"_id":"R88dD7PhgBSu8Sar"}
 {"username":"o","password":"o","name":"Nume o","mail":"o@gmail.com","birthDate":1478346285761,"city":"Cluj 0","isOrg":1,"_id":"S7WZUgb1EJzE9fmR"}
+{"username":"admin","password":"padmin","mail":"bau@a.com","birthDate":"2016-10-31T22:00:00.000Z","city":"medias","isOrg":true,"auth":{"token":null,"inprogress":false},"_id":"omoceTapf6sOpRTG"}

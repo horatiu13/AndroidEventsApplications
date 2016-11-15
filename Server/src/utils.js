@@ -40,6 +40,23 @@ export const setIssueRes = (res, status, issue) =>
     issueLog(`${res.status}, ${JSON.stringify(res.body)}`)
 };
 
+
+export const isUserValid = (user) =>
+{
+    return true;
+};
+
+export const getUserToAdd = (user) =>
+{
+    if (!isUserValid(user))
+    {
+        return null;
+    }
+    
+    return user;
+};
+
+
 // results
 export const LAST_MODIFIED = 'Last-Modified';
 export const ETAG = 'ETag';

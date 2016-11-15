@@ -92,6 +92,9 @@ export class Router extends Component {
     
     onAuthSucceeded(username)
     {
+        this.nav.replace({ id: Login.routeName });
+        this.nav.replace({ id: Register.routeName });
+        
         this.username = username;
         this.navigator.push(EventList.route);
     }

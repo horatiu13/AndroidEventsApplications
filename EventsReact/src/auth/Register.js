@@ -10,7 +10,7 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
-import {login} from './service';
+import {register} from './service';
 import {getLogger, registerRightAction, issueText} from '../utils/utils';
 import styles from '../utils/styles';
 
@@ -93,7 +93,7 @@ export class Register extends Component {
                 <CheckBox
                     label='Organizer'
                     checked={this.state.isOrg}
-                    onChange={(checked) => {this.setState({...this.state, isOrg: checked}); log(`aa: ${checked}`);}}
+                    onChange={(checked) => {this.setState({...this.state, isOrg: checked}); log(`organizer check box: ${checked}`);}}
                 />
                 
                 {message && <Text>{message}</Text>}
@@ -122,13 +122,13 @@ export class Register extends Component {
     onCreate()
     {
         log('onCreate');
-        // this.props.store.dispatch(login(this.state)).then(() =>
-        // {
-        //     if (this.state.auth.token)
-        //     {
-        //         this.props.onAuthSucceeded(this.state.username);
-        //     }
-        // });
+        this.props.store.dispatch(register(this.state)).then(() =>
+        {
+            if (this.state.auth.token)
+            {
+                this.props.onAuthSucceeded(this.state.username);
+            }
+        });
     }
     
     showPicker = async(stateKey, options) =>

@@ -1,6 +1,7 @@
 import {
     OK, NOT_FOUND, LAST_MODIFIED, NOT_MODIFIED, BAD_REQUEST, ETAG,
-    CONFLICT, METHOD_NOT_ALLOWED, NO_CONTENT, CREATED, setIssueRes
+    CONFLICT, METHOD_NOT_ALLOWED, NO_CONTENT, CREATED, setIssueRes,
+    getUserToAdd
 } from './utils';
 import Router from 'koa-router';
 import jwt from 'jsonwebtoken';
@@ -60,6 +61,17 @@ export function getUsernameFromCtx(ctx)
 }
 
 
+function __list(x)
+{
+    log(x);
+    log(`${x}`);
+    log('---------------------------------------------------');
+    for (let p in x)
+    {
+        log(`${p} :--: ${x[p]}`);
+    }
+}
+
 export class AuthRouter extends Router {
     constructor(args)
     {
@@ -69,7 +81,17 @@ export class AuthRouter extends Router {
         // Inregistrare
         this.post('/signup', async(ctx, next) =>
         {
-            let user = await this.userStore.insert(ctx.request.body);
+            log(`signup - user ${JSON.stringify(ctx.request.body)} trying to register`);
+            
+            let userToAdd = getUserToAdd(ctx.request.body);
+            if (null == userToAdd)
+            {
+                ctx.status = CONFLICT;
+                log(`signup - user ${JSON.stringify(ctx.request.body)} is invalid`);
+                return;
+            }
+            
+            let user = await this.userStore.insert(userToAdd);
             ctx.response.body = {token: createToken(user)};
             ctx.status = CREATED;
             log(`signup - user ${user.username} created`);

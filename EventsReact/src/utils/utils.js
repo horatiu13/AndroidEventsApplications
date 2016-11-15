@@ -5,7 +5,7 @@ export const registerRightAction = (navigator, action) =>
     {
         routes[routes.length - 1].rightAction = action;
     }
-}
+};
 
 export function timeout(ms)
 {

@@ -40,6 +40,42 @@ export const login = (user) => (dispatch, getState) =>
         });
 };
 
+
+export const register = (user) => (dispatch, getState) =>
+{
+    if (getState().inprogress)
+    {
+        log(`register already in progress`);
+        return;
+    }
+
+    log(`starting register`);
+    dispatch(action(AUTH_STARTED));
+
+    let ok = false;
+    log(`starting fetch ${apiUrl}/auth/signup`);
+    log(`>> sending: ${JSON.stringify(user)}`);
+    
+    return fetch(`${apiUrl}/auth/signup`, {method: 'POST', headers, body: JSON.stringify(user)})
+        .then(res =>
+        {
+            ok = res.ok;
+            log(`register res ok = ${ok}`);
+            return res.json();
+        })
+        .then(json =>
+        {
+            log(`register json = ${json}`);
+            dispatch(action(ok ? AUTH_SUCCEEDED : AUTH_FAILED, json));
+        })
+        .catch(err =>
+        {
+            log(`register err = ${err.message}`);
+            dispatch(action(AUTH_FAILED, {issue: [{error: err.message}]}));
+        });
+};
+
+
 export const authReducer = (state = {token: null, inprogress: false}, action) =>
 {
     log(`${action.type} ${JSON.stringify(state)}`);
