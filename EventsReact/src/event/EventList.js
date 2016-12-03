@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {ListView, Text, View, StatusBar, ActivityIndicator} from 'react-native';
 import {EventEdit} from './EventEdit';
 import {EventView} from './EventView';
+import {EventDetails} from './EventDetails';
 import {loadEvents, cancelLoadEvents} from './service';
 import {registerRightAction, getLogger, issueText} from '../utils/utils';
 import styles from '../utils/styles';
@@ -14,6 +15,13 @@ export class EventList extends Component {
     static get routeName()
     {
         return EVENT_LIST_ROUTE;
+    }
+    
+    
+    static get routeForReset()
+    {
+        log('routeForReset  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
+        return [{name: EVENT_LIST_ROUTE, title: 'Event List', rightText: 'New'}];
     }
     
     static get route()
@@ -50,7 +58,12 @@ export class EventList extends Component {
                 <ListView
                     dataSource={this.state.dataSource}
                     enableEmptySections={true}
-                    renderRow={event => (<EventView username={this.username} event={event} onPress={(event) => this.onEventPress(event)}/>)}/>
+                    renderRow={event => (<EventView 
+                        username={this.username} 
+                        event={event} 
+                        onPressDetails={(event) => this.onEventPressDetails(event)} 
+                        onPressEdit={(event) => this.onEventPressEdit(event)}
+                    />)}/>
             </View>
         );
     }
@@ -60,13 +73,19 @@ export class EventList extends Component {
         log('onNewEvent');
         this.props.navigator.push({...EventEdit.route});
     }
-    
-    onEventPress(event)
+
+    onEventPressDetails(event)
     {
-        log('onEventPress');
+        log('onEventPressDetails');
+        this.props.navigator.push({...EventDetails.route, data: event});
+    }
+
+    onEventPressEdit(event)
+    {
+        log('onEventPressEdit');
         this.props.navigator.push({...EventEdit.route, data: event});
     }
-    
+
     componentDidMount()
     {
         log('componentDidMount');

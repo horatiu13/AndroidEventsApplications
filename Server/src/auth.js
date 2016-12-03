@@ -84,14 +84,22 @@ export class AuthRouter extends Router {
             log(`signup - user ${JSON.stringify(ctx.request.body)} trying to register`);
             
             let userToAdd = getUserToAdd(ctx.request.body);
-            if (null == userToAdd)
+            if (!userToAdd)
             {
-                ctx.status = CONFLICT;
+                setIssueRes(ctx.response, BAD_REQUEST, [{error: `At least one field is empty or invalid`}]);
                 log(`signup - user ${JSON.stringify(ctx.request.body)} is invalid`);
                 return;
             }
             
-            let user = await this.userStore.insert(userToAdd);
+            let user = await this.userStore.findOne({username: userToAdd.username}); 
+            if (user)
+            {
+                setIssueRes(ctx.response, CONFLICT, [{error: `User ${user.username} already exists`}]);
+                log(`signup - user ${user.username} already exists`);
+                return;
+            }
+
+            user = await this.userStore.insert(userToAdd);
             ctx.response.body = {token: createToken(user)};
             ctx.status = CREATED;
             log(`signup - user ${user.username} created`);

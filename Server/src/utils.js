@@ -33,8 +33,20 @@ export const errorHandler = async(ctx, next) =>
     }
 };
 
+function __list(x)
+{
+    issueLog(x);
+    issueLog(`${x}`);
+    issueLog('---------------------------------------------------');
+    for (let p in x)
+    {
+        issueLog(`${p} :--: ${x[p]}`);
+    }
+}
+
 export const setIssueRes = (res, status, issue) =>
 {
+    __list(issue);
     res.body = {issue: issue};
     res.status = status; //Bad Request
     issueLog(`${res.status}, ${JSON.stringify(res.body)}`)
@@ -43,6 +55,33 @@ export const setIssueRes = (res, status, issue) =>
 
 export const isUserValid = (user) =>
 {
+    if (!user.username)
+    {
+        // log(`Username is empty`);
+        return false;
+    }
+
+    if (!user.password)
+    {
+        // log(`Username is empty`);
+        return false;
+    }
+    
+    if (!user.mail)
+    {
+        return false;
+    }
+    
+    if (!user.birthDate || Date.now() < user.birthDate)
+    {
+        return false;
+    }
+    
+    if (!user.city)
+    {
+        return false;
+    }
+
     return true;
 };
 
@@ -53,6 +92,11 @@ export const getUserToAdd = (user) =>
         return null;
     }
     
+    if (user.auth)
+    {
+        delete user.auth;
+    }
+        
     return user;
 };
 

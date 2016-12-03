@@ -42,6 +42,7 @@ export class EventEdit extends Component {
         log('render');
         const state = this.state;
         let message = issueText(state.issue);
+        
         return (
             <View style={styles.content}>
                 { state.isSaving &&

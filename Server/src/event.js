@@ -58,7 +58,52 @@ export class EventRouter extends Router
                     setIssueRes(res, NOT_FOUND, [{warning: 'Event not found'}]);
                 }
             })
-            
+
+            .post('/attend', async(ctx) =>
+            {
+                let eventId = ctx.request.body.eventId;
+                let res = ctx.response;
+                
+                if (!eventId) 
+                {
+                    log(`attend / - 400 Bad Request`);
+                    setIssueRes(res, BAD_REQUEST, {error: 'Event is invalid. Please check again.'});
+                    return;
+                }
+
+                let event = await this.eventStore.findOne({_id: eventId});
+                if (!event)
+                {
+                    log(`attend ${eventId} - 404 Not Found`);
+                    setIssueRes(res, NOT_FOUND, [{'error': 'Event not found', 'attend': -1}]);
+                    return;
+                }
+                
+                if (event.attend >= event.maxCap)
+                {
+                    log(`attend ${eventId} - 400 Bad Request`);
+                    setIssueRes(res, NOT_FOUND, [{'error': 'Maximum capacity was reached.', 'attend': event.attend}]);
+                    return;
+                }
+                
+                event.attend += 1;
+                event.updated = Date.now();
+
+                let updatedCount = await this.eventStore.update({_id: eventId}, event);
+                if (updatedCount == 1)
+                {
+                    log(`attend ${eventId} OK`);
+                    this.setEventRes(res, OK, {'attend': event.attend}); //200 Ok
+                    this.io.emit('event-updated', event);
+                    gEventsLastUpdateDate = event.updated;
+                }
+                else
+                {
+                    log(`attend ${eventId} - 404 Not Found`);
+                    setIssueRes(res, NOT_FOUND, [{'error': 'Event no longer exists', 'attend': -1}]);
+                }
+            })
+
             .post('/', async(ctx) =>
             {
                 let event = ctx.request.body;

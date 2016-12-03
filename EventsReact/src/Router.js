@@ -1,20 +1,20 @@
 import React, {Component} from 'react';
 import {Text, View, Navigator, TouchableOpacity, StyleSheet} from 'react-native';
-import {EventList, EventEdit} from './event';
+import {EventList, EventEdit, EventDetails} from './event';
 import {Login, Register} from './auth';
 import {getLogger} from './utils/utils';
 
 const log = getLogger('Router');
 
-export class Router extends Component {
-    constructor(props)
-    {
+export class Router extends Component 
+{
+    constructor(props) {
         log(`constructor`);
         super(props);
         this.username = null;
     }
-    
-    render()
+
+    render() 
     {
         log(`render`);
         return (
@@ -30,24 +30,21 @@ export class Router extends Component {
                 }/>
         );
     }
-    
-    componentDidMount()
+
+    componentDidMount() 
     {
         log(`componentDidMount`);
     }
-    
-    componentWillUnmount()
-    {
+
+    componentWillUnmount() {
         log(`componentWillUnmount`);
     }
-    
-    renderScene(route, navigator)
-    {
+
+    renderScene(route, navigator) {
         log(`renderScene ${route.name}`);
-        
+
         this.nav = navigator;
-        switch (route.name)
-        {
+        switch (route.name) {
             case Login.routeName:
                 log(`renderScene: ${Login.routeName}`);
                 return <Login
@@ -56,7 +53,7 @@ export class Router extends Component {
                     onAuthSucceeded={(username) => this.onAuthSucceeded(username)}
                     onRegisterPress={() => this.onRegisterPress()} // onRegisterPress={this.onRegisterPress} // daca nici asa nu merge imi bag ****
                 />;
-            
+
             case EventEdit.routeName:
                 log(`renderScene: ${EventEdit.routeName}`);
                 return <EventEdit
@@ -64,7 +61,15 @@ export class Router extends Component {
                     navigator={navigator}
                     username={this.username}
                 />;
-            
+
+            case EventDetails.routeName:
+                log(`renderScene: ${EventEdit.routeName}`);
+                return <EventDetails
+                    store={this.props.store}
+                    navigator={navigator}
+                    username={this.username}
+                />;
+
             case Register.routeName:
                 log(`renderScene: ${Register.routeName}`);
                 return <Register
@@ -72,7 +77,7 @@ export class Router extends Component {
                     navigator={navigator}
                     onAuthSucceeded={(username) => this.onAuthSucceeded(username)} // daca o se face acelasi lucru ca la login??????????
                 />;
-            
+
             case EventList.routeName:
             default:
                 log(`renderScene: ${EventList.routeName} or default`);
@@ -83,20 +88,16 @@ export class Router extends Component {
                 />
         }
     };
-    
-    onRegisterPress()
-    {
+
+    onRegisterPress() {
         log('cineva vrea sa isi faca cont nou... ');
         this.navigator.push(Register.route);
     }
-    
+
     onAuthSucceeded(username)
     {
-        this.nav.replace({ id: Login.routeName });
-        this.nav.replace({ id: Register.routeName });
-        
         this.username = username;
-        this.navigator.push(EventList.route);
+        this.navigator.immediatelyResetRouteStack(EventList.routeForReset);
     }
 }
 

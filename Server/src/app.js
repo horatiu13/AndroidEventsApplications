@@ -85,7 +85,7 @@ io.on('connection', (socket) =>
     {
         for (let i = 0; i < 5; i++)
         {
-            let e = await eventStore.insert({name: `Event ${i}`, date: Date.now(), minAge:i, city:`City ${i}`, address: `Adderss ${i}`, maxCap: (i + 1) * 5, orgName: i % 2 ? 'o' : 'org', canEdit: false});
+            let e = await eventStore.insert({name: `Event ${i}`, date: Date.now(), minAge:i, city:`City ${i}`, address: `Adderss ${i}`, attend: i, maxCap: (i + 1) * 5, orgName: i % 2 ? 'o' : 'org', canEdit: false});
             log(`Event ${JSON.stringify(e)} added`);
         }
     }

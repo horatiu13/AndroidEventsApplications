@@ -18,16 +18,6 @@ const log = getLogger('Register');
 
 const REGISTER_ROUTE = 'auth/signup';
 
-function __list(x)
-{
-    log(x);
-    log(`${x}`);
-    log('---------------------------------------------------');
-    for (let p in x)
-    {
-        log(`${p} :--: ${x[p]}`);
-    }
-}
 
 export class Register extends Component {
     static get routeName()

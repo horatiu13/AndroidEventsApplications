@@ -15,10 +15,10 @@ export class EventView extends Component {
         {
             // eveniment creeat de acelasi user
             return (
-                <TouchableHighlight onHold={() => this.props.onPress(this.props.event)}>
+                <TouchableHighlight onPress={() => this.props.onPressEdit(this.props.event)}>
                     <View style={styles.listItem}>
                         <Text style={StyleSheet.flatten([styles.details, styles.title])}>{this.props.event.name}</Text>
-                        <Text style={styles.details}>`City: ${this.props.event.city}`</Text>
+                        <Text style={styles.details}>City: {this.props.event.city}</Text>
                     </View>
                 </TouchableHighlight>
             );
@@ -27,10 +27,10 @@ export class EventView extends Component {
         {
             // eveniment creeat de ALT user
             return (
-                <TouchableHighlight onHold={() => this.props.onPress(this.props.event)}>
+                <TouchableHighlight onPress={() => this.props.onPressDetails(this.props.event)}>
                     <View style={styles.listItem}>
                         <Text style={StyleSheet.flatten([styles.details])}>{this.props.event.name}</Text>
-                        <Text style={styles.details}>`City: ${this.props.event.city}`</Text>
+                        <Text style={styles.details}>City: {this.props.event.city}</Text>
                     </View>
                 </TouchableHighlight>
             );

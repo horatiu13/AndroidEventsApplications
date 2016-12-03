@@ -3,15 +3,20 @@ import {apiUrl, authHeaders} from '../utils/api';
 const log = getLogger('event/service');
 const action = (type, payload) => ({type, payload});
 
-const SAVE_EVENT_STARTED = 'event/saveStarted';
-const SAVE_EVENT_SUCCEEDED = 'event/saveSucceeded';
-const SAVE_EVENT_FAILED = 'event/saveFailed';
-const CANCEL_SAVE_EVENT = 'event/cancelSave';
+const SAVE_EVENT_STARTED        = 'event/saveStarted';
+const SAVE_EVENT_SUCCEEDED      = 'event/saveSucceeded';
+const SAVE_EVENT_FAILED         = 'event/saveFailed';
+const SAVE_EVENT_CANCEL         = 'event/loadCancel';
 
-const LOAD_EVENTS_STARTED = 'event/loadStarted';
-const LOAD_EVENTS_SUCCEEDED = 'event/loadSucceeded';
-const LOAD_EVENTS_FAILED = 'event/loadFailed';
-const CANCEL_LOAD_EVENTS = 'event/cancelLoad';
+const LOAD_EVENTS_STARTED       = 'event/loadStarted';
+const LOAD_EVENTS_SUCCEEDED     = 'event/loadSucceeded';
+const LOAD_EVENTS_FAILED        = 'event/loadFailed';
+const LOAD_EVENTS_CANCEL        = 'event/loadCancel';
+
+const ATTEND_EVENT_STARTED      = 'event/attendStarted';
+const ATTEND_EVENT_SUCCEEDED    = 'event/attendSucceeded';
+const ATTEND_EVENT_FAILED       = 'event/attendFailed';
+const ATTEND_EVENT_CANCEL       = 'event/attendCancel';
 
 export const loadEvents = () => (dispatch, getState) =>
 {
@@ -41,7 +46,7 @@ export const loadEvents = () => (dispatch, getState) =>
             }
         });
 };
-export const cancelLoadEvents = () => action(CANCEL_LOAD_EVENTS);
+export const cancelLoadEvents = () => action(LOAD_EVENTS_CANCEL);
 
 export const saveEvent = (event) => (dispatch, getState) =>
 {
@@ -74,20 +79,61 @@ export const saveEvent = (event) => (dispatch, getState) =>
             }
         });
 };
-export const cancelSaveEvent = () => action(CANCEL_SAVE_EVENT);
+export const cancelSaveEvent = () => action(SAVE_EVENT_CANCEL);
+
+export const attendEvent = (event) => (dispatch, getState) =>
+{
+    const body = JSON.stringify({eventId: event._id});
+    log(`attendEvent started`);
+    dispatch(action(ATTEND_EVENT_STARTED));
+    
+    let ok = false;
+    const url = `${apiUrl}/event/attend`;
+    const method = `POST`;
+    
+    return fetch(url, {method, headers: authHeaders(getState().auth.token), body})
+        .then(res =>
+        {
+            ok = res.ok;
+            return res.json();
+        })
+        .then(json =>
+        {
+            log(`attendEvent ok: ${ok}, json: ${JSON.stringify(json)}`);
+            if (!getState().event.isAttendingCancelled)
+            {
+                dispatch(action(ok ? ATTEND_EVENT_SUCCEEDED : ATTEND_EVENT_FAILED, json));
+            }
+            
+            return json;
+        })
+        .catch(err =>
+        {
+            log(`attendEvent err = ${err.message}`);
+            if (!getState().isAttendingCancelled)
+            {
+                dispatch(action(ATTEND_EVENT_FAILED, {issue: [{error: err.message, attend: err.attend}]}));
+            }
+        });
+};
+export const cancelAttendEvent = () => action(ATTEND_EVENT_CANCEL);
 
 export const eventReducer = (state = {items: [], isLoading: false, isSaving: false}, action) =>
 { //newState (new object)
     switch (action.type)
     {
+        // load events
         case LOAD_EVENTS_STARTED:
             return {...state, isLoading: true, isLoadingCancelled: false, issue: null};
         case LOAD_EVENTS_SUCCEEDED:
             return {...state, items: action.payload, isLoading: false};
         case LOAD_EVENTS_FAILED:
             return {...state, issue: action.payload.issue, isLoading: false};
-        case CANCEL_LOAD_EVENTS:
+        case LOAD_EVENTS_CANCEL:
             return {...state, isLoading: false, isLoadingCancelled: true};
+        
+        
+        // save event
         case SAVE_EVENT_STARTED:
             return {...state, isSaving: true, isSavingCancelled: false, issue: null};
         case SAVE_EVENT_SUCCEEDED:
@@ -104,8 +150,20 @@ export const eventReducer = (state = {items: [], isLoading: false, isSaving: fal
             return {...state, items, isSaving: false};
         case SAVE_EVENT_FAILED:
             return {...state, issue: action.payload.issue, isSaving: false};
-        case CANCEL_SAVE_EVENT:
+        case SAVE_EVENT_CANCEL:
             return {...state, isSaving: false, isSavingCancelled: true};
+        
+        
+        //attend event
+        case ATTEND_EVENT_STARTED:
+            return {...state, isAttending: true, isAttendingCancelled: false, issue: null};
+        case ATTEND_EVENT_SUCCEEDED:
+            return {...state, attend: action.payload, isAttendingCancelled: false, issue: null};
+        case ATTEND_EVENT_FAILED:
+            return {...state, issue: action.payload.issue, isAttending: false};
+        case ATTEND_EVENT_CANCEL:
+            return {...state, isAttending: false, isAttendingCancelled: true};
+        
         default:
             return state;
     }
