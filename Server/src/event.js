@@ -67,7 +67,7 @@ export class EventRouter extends Router
                 if (!eventId) 
                 {
                     log(`attend / - 400 Bad Request`);
-                    setIssueRes(res, BAD_REQUEST, {error: 'Event is invalid. Please check again.'});
+                    setIssueRes(res, BAD_REQUEST, {error: 'Event is invalid. Please check again.', 'attend': 0});
                     return;
                 }
 
@@ -75,7 +75,7 @@ export class EventRouter extends Router
                 if (!event)
                 {
                     log(`attend ${eventId} - 404 Not Found`);
-                    setIssueRes(res, NOT_FOUND, [{'error': 'Event not found', 'attend': -1}]);
+                    setIssueRes(res, NOT_FOUND, [{'error': 'Event not found', 'attend': 0}]);
                     return;
                 }
                 
@@ -100,7 +100,7 @@ export class EventRouter extends Router
                 else
                 {
                     log(`attend ${eventId} - 404 Not Found`);
-                    setIssueRes(res, NOT_FOUND, [{'error': 'Event no longer exists', 'attend': -1}]);
+                    setIssueRes(res, NOT_FOUND, [{'error': 'Event no longer exists', 'attend': 0}]);
                 }
             })
 

@@ -120,17 +120,21 @@ export class EventDetails extends Component {
             log('onAttendEvent');
             if (!this.state.issue)
             {
-                let aux  = this.state.event;
-                aux.attend = response.attend;
-                this.setState({event : aux});
+                let newState = this.state;
+                this.state.event.attend = response.attend;
+                this.state.attend       = response.attend;
+                this.setState(newState);
             }
             else
             {
-                __list(response.issue);
-                __list(this.state.issue);
-                let aux  = this.state.event;
-                aux.attend = this.state.issue.attend;
-                this.setState({event : aux});
+                log(`issue: ${JSON.stringify(this.state.issue)}`);//:: ${response.issue} :: ${response.state}`);
+                
+                let newState = this.state;
+                this.state.event.attend = response.issue[0].attend;
+                this.state.attend = response.issue[0].attend;
+                this.state.issue = [{error: response.issue[0].error}];
+                
+                this.setState(newState);
             }
         });
     }
