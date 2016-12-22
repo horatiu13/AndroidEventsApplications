@@ -100,7 +100,7 @@ export class AuthRouter extends Router {
             }
 
             user = await this.userStore.insert(userToAdd);
-            ctx.response.body = {token: createToken(user)};
+            ctx.response.body = {token: createToken(user), user: user};
             ctx.status = CREATED;
             log(`signup - user ${user.username} created`);
         });
@@ -122,7 +122,7 @@ export class AuthRouter extends Router {
                 if (user.password === reqBody.password)
                 {
                     ctx.status = CREATED;
-                    ctx.response.body = {token: createToken(user)};
+                    ctx.response.body = {token: createToken(user), user: user};
                     log(`session - token created`);
                     decodeToken(ctx.response.body.token);
                 }

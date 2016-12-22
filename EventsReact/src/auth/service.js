@@ -30,7 +30,7 @@ export const login = (user) => (dispatch, getState) =>
         })
         .then(json =>
         {
-            log(`login json = ${json}`);
+            log(`login json = ${JSON.stringify(json)}`);
             dispatch(action(ok ? AUTH_SUCCEEDED : AUTH_FAILED, json));
         })
         .catch(err =>

@@ -1,5 +1,6 @@
 import {getLogger} from '../utils/utils';
 import {apiUrl, authHeaders} from '../utils/api';
+
 const log = getLogger('event/service');
 const action = (type, payload) => ({type, payload});
 

@@ -150,38 +150,22 @@ export class EventRouter extends Router
                 else
                 {
                     let persistedEvent = await this.eventStore.findOne({_id: id});
-                    
                     if (persistedEvent)
                     {
-                        let eventVersion = parseInt(ctx.request.get(ETAG)) || event.version;
-                        if (!eventVersion)
+                        event.updated = Date.now();
+                        
+                        let updatedCount = await this.eventStore.update({_id: id}, event);
+                        gEventsLastUpdateDate = event.updated;
+                        
+                        if (updatedCount == 1)
                         {
-                            log(`update /:id - 400 Bad Request (no version specified)`);
-                            setIssueRes(res, BAD_REQUEST, [{error: 'No version specified'}]); //400 Bad Request
-                        }
-                        else if (eventVersion  < persistedEvent.version)
-                        {
-                            log(`update /:id - 409 Conflict`);
-                            setIssueRes(res, CONFLICT, [{error: 'Version conflict'}]); //409 Conflict
+                            this.setEventRes(res, OK, event); //200 Ok
+                            this.io.emit('event-updated', event);
                         }
                         else
                         {
-                            event.version = eventVersion + 1;
-                            event.updated = Date.now();
-                            
-                            let updatedCount = await this.eventStore.update({_id: id}, event);
-                            gEventsLastUpdateDate = event.updated;
-                            
-                            if (updatedCount == 1)
-                            {
-                                this.setEventRes(res, OK, event); //200 Ok
-                                this.io.emit('event-updated', event);
-                            }
-                            else
-                            {
-                                log(`update /:id - 405 Method Not Allowed (resource no longer exists)`);
-                                setIssueRes(res, METHOD_NOT_ALLOWED, [{error: 'Event no longer exists'}]); //
-                            }
+                            log(`update /:id - 405 Method Not Allowed (resource no longer exists)`);
+                            setIssueRes(res, METHOD_NOT_ALLOWED, [{error: 'Event no longer exists'}]); //
                         }
                     }
                     else

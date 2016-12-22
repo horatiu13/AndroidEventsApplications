@@ -92,9 +92,12 @@ export class Login extends Component {
     onLogin()
     {
         log('onLogin');
-        this.props.store.dispatch(login(this.state)).then(() =>
+        this.props.store.dispatch(
+            login(this.state)).then(() =>
         {
-            if (this.state.auth.token)
+            log('ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp');
+            __list(this.state.auth);
+            if (this.state)
             {
                 this.props.onAuthSucceeded(this.state.username);
             }
