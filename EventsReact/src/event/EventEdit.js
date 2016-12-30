@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Text, View, TextInput, ActivityIndicator, DatePickerAndroid, TouchableNativeFeedback} from 'react-native';
-import {saveEvent, cancelSaveEvent} from './service';
+//noinspection JSUnresolvedVariable
+import {Text, View, TextInput, ActivityIndicator, DatePickerAndroid, TimePickerAndroid, TouchableNativeFeedback, Button} from 'react-native';
+import {saveEvent, deleteEvent, cancelSaveEvent} from './service';
 import {registerRightAction, issueText, getLogger} from '../utils/utils';
 import styles from '../utils/styles';
 
@@ -32,7 +33,7 @@ export class EventEdit extends Component {
         }
         else
         {
-            this.state = {event: {name: ''}, isSaving: false};
+            this.state = {event: {orgName: this.username}, isSaving: false};
         }
         registerRightAction(this.props.navigator, this.onSave.bind(this));
     }
@@ -42,6 +43,17 @@ export class EventEdit extends Component {
         log('render');
         const state = this.state;
         let message = issueText(state.issue);
+        let evDate = state.event.date ? new Date(state.event.date) : new Date();
+        
+        evDate.setMilliseconds(0);
+        evDate.setSeconds(0);
+        this.state.event.date = evDate;
+        
+        let minAge = state.event.minAge || state.event.minAge == 0 ? state.event.minAge.toString() : "";
+        let maxCap = state.event.maxCap || state.event.maxCap == 0? state.event.maxCap.toString() : "";
+        let attend = state.event.attend || state.event.attend == 0? state.event.attend.toString() : "";
+        
+        let deleteText = state.event._id ? "Delete" : "";
         
         return (
             <View style={styles.content}>
@@ -50,35 +62,54 @@ export class EventEdit extends Component {
                 }
                 
                 <Text>Name</Text>
-                {/*<TextInput value={state.event.name} onChangeText={(name) => this.updateEventText(name)}></TextInput> -- asta ii aia originala de la lazar*/}
                 <TextInput value={state.event.name} onChangeText={(text) => {this.updateName(text)}}/>
 
                 <Text>City</Text>
                 <TextInput value={state.event.city} onChangeText={(text) => {this.updateCity(text)}}/>
 
-                <Text>Date</Text>
-                <Text>{(new Date(state.event.date)).toString()}</Text>
+                <Text>Address</Text>
+                <TextInput value={state.event.address} onChangeText={(text) => {this.updateAddress(text)}}/>
+
+                <Text>Date: {evDate.toString()}</Text>
+                
                 <TouchableNativeFeedback
-                    onPress={this.showPicker.bind(this, 'present', {
-                        date: new Date(),
-                        minDate: new Date(1900, 1, 1),
-                        maxDate: new Date(),
+                    onPress={this.showDatePicker.bind(this, {
+                        date: new Date(evDate),
+                        minDate: new Date(),
+                        maxDate: new Date(3000, 1, 1),
                     })}>
                     <View>
-                        <Text style={styles.text}>Pick a date</Text>
+                        <Text style={styles.selectableText}>Change Date</Text>
                     </View>
                 </TouchableNativeFeedback>
-                
+
+                <TouchableNativeFeedback
+                    onPress={this.showTimePicker.bind(this, { 
+                        hour: evDate.getHours(), 
+                        minute: evDate.getMinutes(), 
+                        is24Hour: true
+                    })}>
+                    <View>
+                        <Text style={styles.selectableText}>Change Hour</Text>
+                    </View>
+                </TouchableNativeFeedback>
+
+
                 <Text>Minimum Age</Text>
-                <TextInput value={state.event.minAge.toString()} onChangeText={(text) => {this.updateMinAge(Number(text))}}/>
+                <TextInput value={minAge} onChangeText={(text) => {this.updateMinAge(Number(text))}}/>
 
                 <Text>Number of atendees</Text>
-                <TextInput value={state.event.attend.toString()} onChangeText={(text) => {this.updateAttend(Number(text))}}/>
+                <TextInput value={attend} onChangeText={(text) => {this.updateAttend(Number(text))}}/>
 
                 <Text>Capacity</Text>
-                <TextInput value={state.event.maxCap.toString()} onChangeText={(text) => {this.updateMaxCap(Number(text))}}/>
+                <TextInput value={maxCap} onChangeText={(text) => {this.updateMaxCap(Number(text))}}/>
 
-
+                <TouchableNativeFeedback onPress={this.onDelete.bind(this)}>
+                    <View>
+                        <Text style={styles.deleteButton}>{deleteText}</Text>
+                    </View>
+                </TouchableNativeFeedback>
+                           
                 {message && <Text>{message}</Text>}
             </View>
         );        
@@ -119,6 +150,13 @@ export class EventEdit extends Component {
         newState.event.city = city;
         this.setState(newState);
     }
+
+    updateAddress(address)
+    {
+        let newState = {...this.state};
+        newState.event.address = address;
+        this.setState(newState);
+    }
     
     updateMinAge(age)
     {
@@ -131,6 +169,7 @@ export class EventEdit extends Component {
     {
         let newState = {...this.state};
         newState.event.attend = attend;
+        
         this.setState(newState);
     }
 
@@ -140,35 +179,56 @@ export class EventEdit extends Component {
         newState.event.maxCap = cap;
         this.setState(newState);
     }
-    
-    showPicker = async(stateKey, options) =>
+
+    showDatePicker = async(options) =>
     {
         try
         {
-            var newState = {};
+            var auxDate = new Date(this.state.event.date);
             const {action, year, month, day} = await DatePickerAndroid.open(options);
-            if (action === DatePickerAndroid.dismissedAction)
-            {
-                newState[stateKey + 'Text'] = 'dismissed';
-            }
-            else
+            
+            if (action === DatePickerAndroid.dateSetAction)
             {
                 var date = new Date(year, month, day);
-                newState[stateKey + 'Text'] = date.toLocaleDateString();
-                newState[stateKey + 'Date'] = date;
-
-                log(`${date}`);
                 
-                let aux = this.state;
-                this.state.event.date = date;
-                this.setState(aux);
-                // this.setState({...this.state, birthDate: date});
+                date.setHours(auxDate.getHours());
+                date.setMinutes(auxDate.getMinutes());
+                date.setSeconds(0);
+                date.setMilliseconds(0);
+                
+                let newState2 = {...this.state};
+                newState2.event.date  = date;
+                this.setState(newState2);
             }
         }
         catch ({code, message})
         {
-            log(`Error while trying to open date picker '${stateKey}':  ${message}`);
+            log(`Error while trying to open date picker:  ${message}`);
         }
+    };
+
+    showTimePicker = async (options) => { 
+        try 
+        { 
+            const {action, minute, hour} = await TimePickerAndroid.open(options); 
+             
+            if (action === TimePickerAndroid.timeSetAction) 
+            {
+                let newState = {...this.state};
+                var date = new Date(this.state.event.date); 
+                date.setMinutes(minute);
+                date.setHours(hour);
+                date.setSeconds(0);
+                date.setMilliseconds(0);
+                
+                newState.event.date = date; 
+                this.setState(newState); 
+            }
+        } 
+        catch ({code, message}) 
+        { 
+            log(`Error in showTimePicker ${message}`); 
+        } 
     };
     
     onSave()
@@ -183,4 +243,18 @@ export class EventEdit extends Component {
             }
         });
     }
+
+    onDelete()
+    {
+        log('onDelete');
+        this.props.store.dispatch(deleteEvent(this.state.event)).then(() =>
+        {
+            log('onEventDeleted');
+            if (!this.state.issue)
+            {
+                this.props.navigator.pop();
+            }
+        });
+    }
+
 }

@@ -19,6 +19,7 @@ export class EventRouter extends Router
         this.io = props.io;
         
         this
+            // GET ALL
             .get('/', async(ctx) =>
             {
                 getUsernameFromCtx(ctx);
@@ -43,6 +44,7 @@ export class EventRouter extends Router
                 }
             })
             
+            // GET BY ID
             .get('/:id', async(ctx) =>
             {
                 let event = await this.eventStore.findOne({_id: ctx.params.id});
@@ -59,6 +61,7 @@ export class EventRouter extends Router
                 }
             })
 
+            // ATTEND
             .post('/attend', async(ctx) =>
             {
                 let eventId = ctx.request.body.eventId;
@@ -104,23 +107,26 @@ export class EventRouter extends Router
                 }
             })
 
+            // ADD
             .post('/', async(ctx) =>
             {
                 let event = ctx.request.body;
                 let res = ctx.response;
     
                 //validation
-                if (event.name && event.date)
+                let err = this.isEventValid(event);
+                if (!err)
                 {
                     await this.createEvent(res, event);
                 }
                 else
                 {
                     log(`create / - 400 Bad Request`);
-                    setIssueRes(res, BAD_REQUEST, [{error: 'Event is invalid. Please check again.'}]);
+                    setIssueRes(res, BAD_REQUEST, [{error: err}]);
                 }
             })
             
+            // UPDATE
             .put('/:id', async(ctx) =>
             {
                 let event = ctx.request.body;
@@ -135,11 +141,19 @@ export class EventRouter extends Router
                     return;
                 }
                 
+                if (getUsernameFromCtx(ctx) != event.orgName)
+                {
+                    log(`update /:id - 400 Bad Request (Not the same username)`);
+                    setIssueRes(res, BAD_REQUEST, [{error: 'Username not matching'}]);
+                    return;
+                }
+                
                 // validare
-                if (!event.name)
+                let err = this.isEventValid(event);
+                if (err)
                 {
                     log(`update /:id - 400 Bad Request (validation errors)`);
-                    setIssueRes(res, BAD_REQUEST, [{error: 'Name is missing'}]);
+                    setIssueRes(res, BAD_REQUEST, [{error: err}]);
                     return;
                 }
                 
@@ -149,12 +163,12 @@ export class EventRouter extends Router
                 }
                 else
                 {
-                    let persistedEvent = await this.eventStore.findOne({_id: id});
+                    let persistedEvent = await this.eventStore.findOne({_id: id, orgName: event.orgName});
                     if (persistedEvent)
                     {
                         event.updated = Date.now();
                         
-                        let updatedCount = await this.eventStore.update({_id: id}, event);
+                        let updatedCount = await this.eventStore.update({_id: id, orgName: event.orgName}, event);
                         gEventsLastUpdateDate = event.updated;
                         
                         if (updatedCount == 1)
@@ -178,7 +192,7 @@ export class EventRouter extends Router
             
             .del('/:id', async(ctx) =>
             {
-                let id = ctx.params.id;
+                let id = ctx.params._id;
                 await this.eventStore.remove({_id: id});
                 this.io.emit('event-deleted', {_id: id});
                 
@@ -188,8 +202,26 @@ export class EventRouter extends Router
                 log(`remove /:id - 204 No content (even if the resource was already deleted), or 200 Ok`);
             });
     }
+
+    isEventValid(e) 
+    {
+        if (!e) return "Invalid event";
+
+        var err = "";
+        if (!e.name) err += "\nEmpty name";
+        if (!e.date) err += "\nEmpty date";
+        if (!e.minAge || isNaN(parseInt(e.minAge)) || parseInt(e.minAge) < 0) err += "\nInvalid Age";
+        if (!e.minAge || isNaN(parseInt(e.minAge)) || parseInt(e.minAge) < 0) err += "\nInvalid Age";
+        if (!e.city) err += "\nEmpty City";
+        if (!e.address) err += "\nEmpty Address";
+        if (!e.attend || isNaN(parseInt(e.attend)) || parseInt(e.attend) < 0) err += "\nInvalid number of attendees";
+        if (!e.maxCap || isNaN(parseInt(e.maxCap)) || parseInt(e.maxCap) < 0) err += "\nInvalid capacity";
+        if (parseInt(e.attend) > parseInt(e.maxCap)) err += "\nCapacity is too small";
+        
+        return err;
+    }
     
-    
+
     setCanEditField(lst, ctx)
     {
         let user = getUsernameFromCtx(ctx);

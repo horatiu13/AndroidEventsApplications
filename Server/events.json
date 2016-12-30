@@ -1,18 +1,8 @@
-{"name":"Event 3","date":1480766518025,"minAge":3,"city":"City 3","address":"Adderss 3","attend":15,"maxCap":20,"orgName":"o","canEdit":false,"_id":"5fcuwPOyHMPWJe66","updated":1481468172491}
+{"name":"Revelion","date":"2017-01-13T18:30:00.000Z","minAge":19,"city":"Medias","address":"Govora 6","attend":100,"maxCap":200,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1483125620220}
 {"name":"Event 4","date":1480766518026,"minAge":4,"city":"City 4","address":"Adderss 4","attend":25,"maxCap":25,"orgName":"org","canEdit":false,"_id":"aTpV4zh2dwpfKn3N","updated":1480782987058}
-{"name":"Event 1","date":1480766518021,"minAge":1,"city":"City 1","address":"Adderss 1","attend":1,"maxCap":10,"orgName":"o","canEdit":false,"_id":"ogJIfeiv1j20jNy2"}
+{"name":"Event 1","date":"2016-12-03T12:00:58.021Z","minAge":1,"city":"City 1","address":"Adderss 1","attend":1,"maxCap":10,"orgName":"o","canEdit":true,"_id":"ogJIfeiv1j20jNy2","updated":1483113127132}
+{"orgName":"o","date":"2017-01-07T11:23:00.000Z","name":"Ceva","city":"Cluj","address":"Bucuresti","minAge":25,"attend":12,"maxCap":100,"version":1,"updated":1483125987173,"_id":"uoO2k74umKnv9UyF","canEdit":true}
 {"name":"Event 0","date":1480766518019,"minAge":0,"city":"City 0","address":"Adderss 0","attend":5,"maxCap":5,"orgName":"org","canEdit":false,"_id":"vPvxIPYA5dApQQjD","updated":1481394332436}
-{"name":"Event 2","date":1480766518023,"minAge":2,"city":"City 2","address":"Adderss 2","attend":10,"maxCap":15,"orgName":"org","canEdit":false,"_id":"vYptTMROWHDz212E","updated":1482392313471}
-{"name":"Event 35555","date":1480766518025,"minAge":3,"city":"City 3","address":"Adderss 3","attend":15,"maxCap":20,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404356473}
-{"name":"Event 35555","date":1480766518025,"minAge":3513,"city":"City 3124","address":"Adderss 3","attend":15,"maxCap":20,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404365345}
-{"name":"Event 35555","date":1480766518025,"minAge":3513,"city":"City 3124","address":"Adderss 3","attend":15,"maxCap":2055,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404381242}
-{"name":"Event 35555","date":1480766518025,"minAge":3513,"city":"City 3124","address":"Adderss 3","attend":1553,"maxCap":2055,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404386266}
-{"name":"Event 35555","date":1480766518025,"minAge":3513,"city":"City 3124","address":"Adderss 3","attend":1554,"maxCap":2055,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404398210}
-{"name":"Event 35555","date":1480766518025,"minAge":3513,"city":"City 3124","address":"Adderss 3","attend":1555,"maxCap":2055,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404398402}
-{"name":"Event 35555","date":1480766518025,"minAge":3513,"city":"City 3124","address":"Adderss 3","attend":1556,"maxCap":2055,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404398617}
-{"name":"Event 35555","date":1480766518025,"minAge":3513,"city":"City 3124","address":"Adderss 3","attend":1557,"maxCap":2055,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404398823}
-{"name":"Event 35555","date":1480766518025,"minAge":3513,"city":"City 3124","address":"Adderss 3","attend":1558,"maxCap":2055,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404398931}
-{"name":"Event 35555","date":1480766518025,"minAge":3513,"city":"City 3124","address":"Adderss 3","attend":1559,"maxCap":2055,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404399152}
-{"name":"Event 35555","date":1480766518025,"minAge":3513,"city":"City 3124","address":"Adderss 3","attend":1560,"maxCap":2055,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404399294}
-{"name":"Event 35555","date":1480766518025,"minAge":3513,"city":"City 3124","address":"Adderss 3","attend":1561,"maxCap":2055,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404399487}
-{"name":"Event 35555","date":1480766518025,"minAge":3513,"city":"City 3124","address":"Adderss 3","attend":1562,"maxCap":2055,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1482404399681}
+{"name":"Event 2","date":1480766518023,"minAge":2,"city":"City 2","address":"Adderss 2","attend":11,"maxCap":15,"orgName":"org","canEdit":false,"_id":"vYptTMROWHDz212E","updated":1483107384626}
+{"name":"Revelion","date":"2017-01-13T18:30:00.000Z","minAge":19,"city":"Medias2","address":"Govora 6","attend":100,"maxCap":200,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1483128329049}
+{"name":"Revelion","date":"2017-01-13T18:30:00.000Z","minAge":19,"city":"Medias","address":"Govora 6","attend":100,"maxCap":200,"orgName":"o","canEdit":true,"_id":"5fcuwPOyHMPWJe66","updated":1483128335476}

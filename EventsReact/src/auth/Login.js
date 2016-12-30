@@ -65,7 +65,7 @@ export class Login extends Component {
                         <Text style={{margin: 30}}>Register</Text>
                     </View>
                 </TouchableNativeFeedback>
-    
+                
                 {message && <Text>{message}</Text>}
             </View>
             );
@@ -96,8 +96,9 @@ export class Login extends Component {
             login(this.state)).then(() =>
         {
             log('ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp');
-            __list(this.state.auth);
-            if (this.state)
+            // __list(this.state.auth);
+            log(`${JSON.stringify(this.state)}`);
+            if (!this.state.auth.issue)
             {
                 this.props.onAuthSucceeded(this.state.username);
             }

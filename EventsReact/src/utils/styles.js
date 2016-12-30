@@ -13,7 +13,22 @@ const styles = StyleSheet.create({
     registerContent: {
         marginTop: 70,
         flex: 1
-    }
+    },
+    
+    text: {
+        
+    },
+
+    selectableText: {
+        color: 'red'
+    },
+
+
+    deleteButton: {
+        color: 'red',
+        alignItems: 'center'
+    },
+
 });
 
 export default styles;

@@ -7,7 +7,12 @@ const action = (type, payload) => ({type, payload});
 const SAVE_EVENT_STARTED        = 'event/saveStarted';
 const SAVE_EVENT_SUCCEEDED      = 'event/saveSucceeded';
 const SAVE_EVENT_FAILED         = 'event/saveFailed';
-const SAVE_EVENT_CANCEL         = 'event/loadCancel';
+const SAVE_EVENT_CANCEL         = 'event/saveCancel';
+
+const DEL_EVENT_STARTED         = 'event/delStarted';
+const DEL_EVENT_SUCCEEDED       = 'event/delSucceeded';
+const DEL_EVENT_FAILED          = 'event/delFailed';
+const DEL_EVENT_CANCEL          = 'event/delCancel';
 
 const LOAD_EVENTS_STARTED       = 'event/loadStarted';
 const LOAD_EVENTS_SUCCEEDED     = 'event/loadSucceeded';
@@ -119,6 +124,44 @@ export const attendEvent = (event) => (dispatch, getState) =>
 };
 export const cancelAttendEvent = () => action(ATTEND_EVENT_CANCEL);
 
+export const deleteEvent = (event) => (dispatch, getState) =>
+{
+    const body = JSON.stringify({_id: event._id});
+    log(`deleteEvent started`);
+    dispatch(action(DEL_EVENT_STARTED));
+
+    let ok = false;
+    const url = `${apiUrl}/event/${event._id}`;
+    const method = `DELETE`;
+
+    return fetch(url, {method, headers: authHeaders(getState().auth.token), body})
+        .then(res =>
+        {
+            ok = res.ok;
+            return res.json();
+        })
+        .then(json =>
+        {
+            log(`deleteEvent ok: ${ok}, json: ${JSON.stringify(json)}`);
+            if (!getState().event.isDeletingCancelled)
+            {
+                dispatch(action(ok ? DEL_EVENT_SUCCEEDED : DEL_EVENT_FAILED, json));
+            }
+
+            return json;
+        })
+        .catch(err =>
+        {
+            log(`deleteEvent err = ${err.message}`);
+            if (!getState().isDeletingCancelled)
+            {
+                dispatch(action(DEL_EVENT_FAILED, {issue: [{error: err.message}]}));
+            }
+        });
+};
+export const cancelDeleteEvent = () => action(DEL_EVENT_CANCEL);
+
+
 export const eventReducer = (state = {items: [], isLoading: false, isSaving: false}, action) =>
 { //newState (new object)
     switch (action.type)
@@ -164,7 +207,17 @@ export const eventReducer = (state = {items: [], isLoading: false, isSaving: fal
             return {...state, issue: action.payload.issue, isAttending: false};
         case ATTEND_EVENT_CANCEL:
             return {...state, isAttending: false, isAttendingCancelled: true};
-        
+
+        // del event
+        case DEL_EVENT_STARTED:
+            return {...state, isDeleting: true, isDeletingCancelled: false, issue: null};
+        case DEL_EVENT_SUCCEEDED:
+            return {...state, isDeleting: action.payload, isDeletingCancelled: false, issue: null};
+        case DEL_EVENT_FAILED:
+            return {...state, issue: action.payload.issue, isDeleting: false};
+        case DEL_EVENT_CANCEL:
+            return {...state, isDeleting: false, isDeletingCancelled: true};
+
         default:
             return state;
     }
