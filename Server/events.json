@@ -1,15 +1,4 @@
-{"name":"Event 4","date":1480766518026,"minAge":4,"city":"City 4","address":"Adderss 4","attend":25,"maxCap":25,"orgName":"org","canEdit":false,"_id":"aTpV4zh2dwpfKn3N","updated":1480782987058}
-{"name":"Event 1","date":"2016-12-03T12:00:58.021Z","minAge":1,"city":"City 1","address":"Adderss 1","attend":1,"maxCap":10,"orgName":"o","canEdit":true,"_id":"ogJIfeiv1j20jNy2","updated":1483113127132}
-{"orgName":"o","date":"2017-01-07T11:23:00.000Z","name":"Ceva","city":"Cluj","address":"Bucuresti","minAge":25,"attend":13,"maxCap":100,"version":1,"updated":1483527636513,"_id":"uoO2k74umKnv9UyF","canEdit":true}
-{"name":"Event 0","date":1480766518019,"minAge":0,"city":"City 0","address":"Adderss 0","attend":5,"maxCap":5,"orgName":"org","canEdit":false,"_id":"vPvxIPYA5dApQQjD","updated":1481394332436}
-{"name":"Event 2","date":1480766518023,"minAge":2,"city":"City 2","address":"Adderss 2","attend":11,"maxCap":15,"orgName":"org","canEdit":false,"_id":"vYptTMROWHDz212E","updated":1483107384626}
-{"name":"Event 2","date":1480766518023,"minAge":2,"city":"City 2","address":"Adderss 2","attend":12,"maxCap":15,"orgName":"org","canEdit":false,"_id":"vYptTMROWHDz212E","updated":1483547036319}
-{"orgName":"o","date":"2017-01-11T02:25:00.000Z","name":"tst","city":"testttt","address":"aaaa","minAge":15,"attend":120,"maxCap":300,"version":1,"updated":1483548005933,"_id":"1XiESNIT9rMvvy9L"}
-{"$$deleted":true,"_id":"1XiESNIT9rMvvy9L"}
-{"name":"Event 1","date":"2016-12-03T12:00:00.000Z","minAge":1,"city":"City 1","address":"Adderss 1","attend":1,"maxCap":10,"orgName":"o","canEdit":true,"_id":"ogJIfeiv1j20jNy2","updated":1483548949271}
-{"$$deleted":true,"_id":"uoO2k74umKnv9UyF"}
-{"name":"Event 1542","date":"2016-12-03T12:00:00.000Z","minAge":1,"city":"City 1","address":"Adderss 1","attend":1,"maxCap":10,"orgName":"o","canEdit":true,"_id":"ogJIfeiv1j20jNy2","updated":1483549821068}
-{"$$deleted":true,"_id":"ogJIfeiv1j20jNy2"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":135,"maxCap":2222,"version":1,"updated":1483550715857,"_id":"PW5cOBjtylwj0m6u"}
-{"name":"Event 2","date":1480766518023,"minAge":2,"city":"City 2","address":"Adderss 2","attend":13,"maxCap":15,"orgName":"org","canEdit":false,"_id":"vYptTMROWHDz212E","updated":1483550730350}
 {"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":136,"maxCap":2222,"version":1,"updated":1483550737675,"_id":"PW5cOBjtylwj0m6u"}
+{"name":"Event 4","date":1480766518026,"minAge":4,"city":"City 4","address":"Adderss 4","attend":25,"maxCap":25,"orgName":"org","canEdit":false,"_id":"aTpV4zh2dwpfKn3N","updated":1480782987058}
+{"name":"Event 0","date":1480766518019,"minAge":0,"city":"City 0","address":"Adderss 0","attend":5,"maxCap":5,"orgName":"org","canEdit":false,"_id":"vPvxIPYA5dApQQjD","updated":1481394332436}
+{"name":"Event 2","date":1480766518023,"minAge":2,"city":"City 2","address":"Adderss 2","attend":13,"maxCap":15,"orgName":"org","canEdit":false,"_id":"vYptTMROWHDz212E","updated":1483550730350}

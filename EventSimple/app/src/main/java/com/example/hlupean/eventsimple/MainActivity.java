@@ -1,17 +1,28 @@
 package com.example.hlupean.eventsimple;
 
-import android.app.ListActivity;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.view.View;
 
-import com.example.hlupean.eventsimple.controller.ControllerEvents;
-import com.example.hlupean.eventsimple.domain.Event;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends ListActivity
+import com.example.hlupean.eventsimple.controller.ControllerAuth;
+import com.example.hlupean.eventsimple.net.NetController;
+
+
+public class MainActivity extends Activity
 {
-    // cacatu asta e un fel de main
-    private ControllerEvents ctr;
+    NetController net = new NetController();
+    ControllerAuth ctrlUser = new ControllerAuth(net);
+
+    Button btnLogin;
+    Button btnRegister;
+    EditText tbxUser;
+    EditText tbxPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -19,26 +30,30 @@ public class MainActivity extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.ctr = new ControllerEvents();
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnRegister = (Button) findViewById(R.id.btnRegister);
+        tbxUser = (EditText) findViewById(R.id.tbxUser);
+        tbxPass = (EditText) findViewById(R.id.tbxPass);
 
-        if (!Login())
+        btnLogin.setOnClickListener(new View.OnClickListener()
         {
-            finish();
-            System.exit(1);
-        }
+            @Override
+            public void onClick(View v)
+            {
+                String username = tbxUser.getText().toString();
+                String password = tbxPass.getText().toString();
+                String err = ctrlUser.Login(username, password);
 
-        ShowList();
-    }
+                if (null != err)
+                {
+                    Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
+                }
 
-    private boolean Login()
-    {
-        return true;
-    }
-
-    private void ShowList()
-    {
-        String[] lst = ctr.getEventsList();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getListView().getContext(), android.R.layout.simple_list_item_1, lst);
-        getListView().setAdapter(adapter);
+            }
+        });
     }
 }

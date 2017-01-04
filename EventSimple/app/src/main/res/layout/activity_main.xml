@@ -10,17 +10,62 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.hlupean.eventsimple.MainActivity">
 
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Hello World!"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_alignParentStart="true" />-->
 
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"/>
+    <TextView
+        android:text = "@string/username"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:id = "@+id/tvUsername"
+        android:layout_alignParentTop = "true"
+        android:layout_alignParentStart = "true"
+        android:layout_marginStart = "12dp"
+        android:layout_marginTop = "63dp"/>
+
+    <TextView
+        android:text = "@string/password"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:id = "@+id/tvPassword"
+        android:layout_below = "@+id/tvUsername"
+        android:layout_alignEnd = "@+id/tvUsername"
+        android:layout_marginTop = "28dp"/>
+
+    <EditText
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:inputType = "textPersonName"
+        android:ems = "10"
+        android:id = "@+id/tbxUser"
+        android:layout_alignBaseline = "@+id/tvUsername"
+        android:layout_alignBottom = "@+id/tvUsername"
+        android:layout_alignParentEnd = "true"
+        android:layout_marginEnd = "14dp"/>
+
+    <EditText
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:inputType = "textPassword"
+        android:ems = "10"
+        android:id = "@+id/tbxPass"
+        android:layout_alignTop = "@+id/tvPassword"
+        android:layout_alignStart = "@+id/tbxUser"/>
+
+    <Button
+        android:text = "@string/register"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:id = "@+id/btnRegister"
+        android:layout_below = "@+id/btnLogin"
+        android:layout_toEndOf = "@+id/tvPassword"
+        android:layout_marginStart = "32dp"
+        android:layout_marginTop = "56dp"/>
+
+    <Button
+        android:text = "@string/login"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:id = "@+id/btnLogin"
+        android:layout_centerVertical = "true"
+        android:layout_alignStart = "@+id/btnRegister"/>
+
 </RelativeLayout>
