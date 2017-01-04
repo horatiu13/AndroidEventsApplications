@@ -190,15 +190,17 @@ export class EventRouter extends Router
                 }
             })
             
+            // DELETE
             .del('/:id', async(ctx) =>
             {
-                let id = ctx.params._id;
-                await this.eventStore.remove({_id: id});
+                let id = ctx.params.id;
+                let x = await this.eventStore.remove({_id: id});
+                log(`DELETE ${id} RETURNED: ${x}`);
                 this.io.emit('event-deleted', {_id: id});
                 
                 gEventsLastUpdateDate = Date.now();
                 ctx.response.status = NO_CONTENT;
-                
+                ctx.response.body = ctx.body;
                 log(`remove /:id - 204 No content (even if the resource was already deleted), or 200 Ok`);
             });
     }
@@ -210,7 +212,6 @@ export class EventRouter extends Router
         var err = "";
         if (!e.name) err += "\nEmpty name";
         if (!e.date) err += "\nEmpty date";
-        if (!e.minAge || isNaN(parseInt(e.minAge)) || parseInt(e.minAge) < 0) err += "\nInvalid Age";
         if (!e.minAge || isNaN(parseInt(e.minAge)) || parseInt(e.minAge) < 0) err += "\nInvalid Age";
         if (!e.city) err += "\nEmpty City";
         if (!e.address) err += "\nEmpty Address";

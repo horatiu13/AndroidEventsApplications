@@ -32,6 +32,8 @@ export const login = (user) => (dispatch, getState) =>
         {
             log(`login json = ${JSON.stringify(json)}`);
             dispatch(action(ok ? AUTH_SUCCEEDED : AUTH_FAILED, json));
+            
+            return json;
         })
         .catch(err =>
         {
@@ -67,6 +69,8 @@ export const register = (user) => (dispatch, getState) =>
         {
             log(`register json = ${json}`);
             dispatch(action(ok ? AUTH_SUCCEEDED : AUTH_FAILED, json));
+            
+            return json;
         })
         .catch(err =>
         {

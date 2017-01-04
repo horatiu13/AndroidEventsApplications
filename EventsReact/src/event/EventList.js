@@ -18,16 +18,17 @@ export class EventList extends Component {
     }
     
     
-    static get routeForReset()
+    static get routeOrg()
     {
-        log('routeForReset  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
+        log('routeOrg');
         return [{name: EVENT_LIST_ROUTE, title: 'Event List', rightText: 'New'}];
     }
     
-    static get route()
+    static get routeUser()
     {
-        log('route====================================================================================');
-        return {name: EVENT_LIST_ROUTE, title: 'Event List', rightText: 'New'};
+        log('routeUser');
+        
+        return [{name: EVENT_LIST_ROUTE, title: 'Event List'}];
     }
     
     constructor(props)
@@ -37,9 +38,13 @@ export class EventList extends Component {
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
         const eventState = this.props.store.getState().event;
         this.username = this.props.username;
+        this.curUser = this.props.curUser;
         this.state = {isLoading: eventState.isLoading, dataSource: this.ds.cloneWithRows(eventState.items)};
-        registerRightAction(this.props.navigator, this.onNewEvent.bind(this));
         
+        if (this.curUser.isOrg) 
+        {
+            registerRightAction(this.props.navigator, this.onNewEvent.bind(this));
+        }
     }
     
     render()

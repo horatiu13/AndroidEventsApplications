@@ -239,7 +239,7 @@ export class EventEdit extends Component {
             log('onEventSaved');
             if (!this.state.issue)
             {
-                this.props.navigator.pop();
+                this.props.navigator.pop();       
             }
         });
     }

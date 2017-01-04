@@ -138,7 +138,10 @@ export const deleteEvent = (event) => (dispatch, getState) =>
         .then(res =>
         {
             ok = res.ok;
-            return res.json();
+            log(`${JSON.stringify(res)}`);
+            // return JSON.parse(res);
+            // return res.json();
+            return res;
         })
         .then(json =>
         {

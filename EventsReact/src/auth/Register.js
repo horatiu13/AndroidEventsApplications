@@ -112,11 +112,11 @@ export class Register extends Component {
     onCreate()
     {
         log('onCreate');
-        this.props.store.dispatch(register(this.state)).then(() =>
+        this.props.store.dispatch(register(this.state)).then((response) =>
         {
             if (this.state.auth.token)
             {
-                this.props.onAuthSucceeded(this.state.username);
+                this.props.onAuthSucceeded(this.state.username, response.user);
             }
         });
     }

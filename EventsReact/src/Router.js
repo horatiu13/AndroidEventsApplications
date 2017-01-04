@@ -50,7 +50,7 @@ export class Router extends Component
                 return <Login
                     store={this.props.store}
                     navigator={navigator}
-                    onAuthSucceeded={(username) => this.onAuthSucceeded(username)}
+                    onAuthSucceeded={(username, user) => this.onAuthSucceeded(username, user)}
                     onRegisterPress={() => this.onRegisterPress()} // onRegisterPress={this.onRegisterPress} // daca nici asa nu merge imi bag ****
                 />;
 
@@ -75,7 +75,7 @@ export class Router extends Component
                 return <Register
                     store={this.props.store}
                     navigator={navigator}
-                    onAuthSucceeded={(username) => this.onAuthSucceeded(username)} // daca o se face acelasi lucru ca la login??????????
+                    onAuthSucceeded={(username, user) => this.onAuthSucceeded(username, user)} // daca o se face acelasi lucru ca la login??????????
                 />;
 
             case EventList.routeName:
@@ -85,6 +85,7 @@ export class Router extends Component
                     store={this.props.store}
                     navigator={navigator}
                     username={this.username}
+                    curUser={this.curUser}
                 />
         }
     };
@@ -94,10 +95,20 @@ export class Router extends Component
         this.navigator.push(Register.route);
     }
 
-    onAuthSucceeded(username)
+    onAuthSucceeded(username, user)
     {
         this.username = username;
-        this.navigator.immediatelyResetRouteStack(EventList.routeForReset);
+        this.curUser = user;
+        log(`User ${this.curUser.username} is now loggedin (org: ${this.curUser.isOrg})`);
+        
+        if (this.curUser.isOrg)
+        {
+            this.navigator.immediatelyResetRouteStack(EventList.routeOrg);
+        }
+        else 
+        {
+            this.navigator.immediatelyResetRouteStack(EventList.routeUser);
+        }
     }
 }
 
