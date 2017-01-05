@@ -1,23 +1,21 @@
 package com.example.hlupean.eventsimple;
 
 import android.app.Activity;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.hlupean.eventsimple.controller.ControllerAuth;
 import com.example.hlupean.eventsimple.net.NetController;
 
-
 public class MainActivity extends Activity
 {
-    NetController net = new NetController();
-    ControllerAuth ctrlUser = new ControllerAuth(net);
+    static final String TAG = MainActivity.class.getSimpleName();
+
+    ControllerAuth ctrlUser;
 
     Button btnLogin;
     Button btnRegister;
@@ -27,8 +25,14 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ctrlUser = ControllerAuth.getInstance();
+        ctrlUser.setContext(this);
+        NetController.getInstance().setContext(this);
+
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnRegister = (Button) findViewById(R.id.btnRegister);
@@ -42,18 +46,23 @@ public class MainActivity extends Activity
             {
                 String username = tbxUser.getText().toString();
                 String password = tbxPass.getText().toString();
-                String err = ctrlUser.Login(username, password);
-
-                if (null != err)
-                {
-                    Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Redirecting...", Toast.LENGTH_SHORT).show();
-                }
-
+                ctrlUser.Login(username, password);
             }
         });
+
+        final Activity act = this;
+
+        btnRegister.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(act, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
 }

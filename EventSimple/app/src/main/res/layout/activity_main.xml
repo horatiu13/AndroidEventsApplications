@@ -51,21 +51,29 @@
         android:layout_alignStart = "@+id/tbxUser"/>
 
     <Button
-        android:text = "@string/register"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:id = "@+id/btnRegister"
-        android:layout_below = "@+id/btnLogin"
-        android:layout_toEndOf = "@+id/tvPassword"
-        android:layout_marginStart = "32dp"
-        android:layout_marginTop = "56dp"/>
-
-    <Button
         android:text = "@string/login"
         android:layout_width = "wrap_content"
         android:layout_height = "wrap_content"
         android:id = "@+id/btnLogin"
-        android:layout_centerVertical = "true"
-        android:layout_alignStart = "@+id/btnRegister"/>
+        android:layout_below = "@+id/tbxPass"
+        android:layout_alignStart = "@+id/tvUsername"
+        android:layout_marginTop = "36dp"/>
+
+    <Button
+        android:text = "@string/register"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:id = "@+id/btnRegister"
+        android:layout_alignTop = "@+id/btnLogin"
+        android:layout_alignEnd = "@+id/tbxPass"/>
+
+    <Button
+        android:text = "Cancel"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_alignTop = "@+id/btnLogin"
+        android:layout_centerHorizontal = "true"
+        android:id = "@+id/btnCancel"
+        android:visibility = "gone"/>
 
 </RelativeLayout>

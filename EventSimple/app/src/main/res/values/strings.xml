@@ -1,7 +1,14 @@
 <resources>
-    <string name="app_name">Event Simple</string>
+    <string name = "app_name">Events Simple</string>
     <string name = "register">Register</string>
     <string name = "login">Login</string>
     <string name = "password">Password</string>
     <string name = "username">Username</string>
+    <string name = "title_event_list">Events</string>
+    <string name = "title_event_detail">Event Detail</string>
+    <string name = "email">EMail</string>
+    <string name = "city">City</string>
+    <string name = "birth_date">Birth Date</string>
+    <string name = "pick_a_date">Pick a date</string>
+    <string name = "organizer">Organizer</string>
 </resources>
