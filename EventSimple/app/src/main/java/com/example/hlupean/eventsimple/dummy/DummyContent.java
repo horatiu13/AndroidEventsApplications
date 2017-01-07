@@ -1,6 +1,10 @@
 package com.example.hlupean.eventsimple.dummy;
 
+import com.example.hlupean.eventsimple.controller.ControllerEvents;
+import com.example.hlupean.eventsimple.domain.Event;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,38 +28,45 @@ public class DummyContent
      */
     public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
 
-    private static final int COUNT = 25;
+    private static int COUNT = 0;
 
     static
     {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++)
+        ControllerEvents ctr = ControllerEvents.getInstance();
+        Event[] lstEv = ctr.GetAllEvents();
+
+        if (null != lstEv)
         {
-            addItem(createDummyItem(i));
+            COUNT = lstEv.length;
+            for (int i = 0; i < COUNT; i++)
+            {
+                addItem(createDummyItem(lstEv[i]));
+            }
         }
     }
 
     private static void addItem(DummyItem item)
     {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
+        ITEM_MAP.put(item._id, item);
     }
 
-    private static DummyItem createDummyItem(int position)
+    private static DummyItem createDummyItem(Event ev)
     {
-        return new DummyItem(String.valueOf(position), "Item " + position, makeDetails(position));
+        return new DummyItem(ev);
+//        return new DummyItem(ev.getId(), ev.getName(), ev.getCity());
     }
-
-    private static String makeDetails(int position)
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++)
-        {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
-    }
+//
+//    private static String makeDetails(int position)
+//    {
+//        StringBuilder builder = new StringBuilder();
+//        builder.append("Details about Item: ").append(position);
+//        for (int i = 0; i < position; i++)
+//        {
+//            builder.append("\nMore details information here.");
+//        }
+//        return builder.toString();
+//    }
 
     /**
      * A dummy item representing a piece of content.
@@ -66,6 +77,17 @@ public class DummyContent
         public final String content;
         public final String details;
 
+        public String  _id;
+        public String  name;
+        public Date    date;
+        public int     minAge;
+        public String  city;
+        public String  address;
+        public int     attend;
+        public int     maxCap;
+        public String  orgName;
+        public boolean canEdit;
+
         public DummyItem(String id, String content, String details)
         {
             this.id = id;
@@ -73,10 +95,28 @@ public class DummyContent
             this.details = details;
         }
 
+        public DummyItem(Event ev)
+        {
+            id = ev.getId();
+            content = ev.getCity() + ", " + ev.getAddress();
+            details = ev.getCity() + " " + ev.getCanEdit() + " " + ev.getOrgName();
+
+            _id = ev.getId();
+            name = ev.getName();
+            date = ev.getDate();
+            minAge = ev.getMinAge();
+            city = ev.getCity();
+            address = ev.getAddress();
+            attend = ev.getAttend();
+            maxCap = ev.getMaxCap();
+            orgName = ev.getOrgName();
+            canEdit = ev.getCanEdit();
+        }
+
         @Override
         public String toString()
         {
-            return content;
+            return name;
         }
     }
 }

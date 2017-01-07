@@ -28,17 +28,16 @@ public class ControllerAuth
         this.net = NetController.getInstance();
     }
 
+    public void setContext(Activity context)
+    {
+        this.context = context;
+    }
+
     public void Login(String username, String password)
     {
         this.net.Login(username, password);
     }
 
-
-    public void setContext(Activity context)
-    {
-        this.context = context;
-    }
-    
     public void Register(String username, String password, String mail, String city, Date date, boolean isOrg)
     {
         this.net.Register(username, password, mail, city, date, isOrg);

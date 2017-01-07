@@ -2,11 +2,17 @@ package com.example.hlupean.eventsimple.net;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hlupean.eventsimple.EventListActivity;
+import com.example.hlupean.eventsimple.R;
+import com.example.hlupean.eventsimple.domain.Event;
 import com.example.hlupean.eventsimple.domain.User;
+import com.example.hlupean.eventsimple.dummy.DummyContent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +20,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -34,6 +41,7 @@ public class NetController
 
     private final String apiUrl     = "http://192.168.56.1:3000/api";
     private final String authUrl    = apiUrl + "/auth";
+    private final String eventUrl   = apiUrl + "/event";
     private String token            = "";
     private Activity context;
     private User user;
@@ -55,12 +63,18 @@ public class NetController
 
     private void ShowToast(final String message)
     {
-        context.runOnUiThread(new Runnable()
+        ShowToast(context, message);
+    }
+
+
+    private void ShowToast(final Activity activity, final String message)
+    {
+        activity.runOnUiThread(new Runnable()
         {
             @Override
             public void run()
             {
-                Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -234,4 +248,178 @@ public class NetController
 
     }
 
+    public Event[] GetAllEvents()
+    {
+        final String path = eventUrl;
+
+        Log.d(TAG, "Trying get all events on: " + path);
+        final Request request = new Request
+                .Builder()
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Bearer " + token)
+                .url(path)
+                .build();
+
+        AsyncTask<String, String, Event[]> as = new AsyncTask<String, String, Event[]>()
+        {
+            @Override
+            protected Event[] doInBackground(String... params)
+            {
+                try
+                {
+                    Response response = client.newCall(request).execute();
+
+                    if (!response.isSuccessful())
+                    {
+                        return null;
+                    }
+
+                    String r = response.body().string();
+                    JSONObject json = new JSONObject("{\"lst\": " + r + "}");
+                    JSONArray ar = json.getJSONArray("lst");
+                    Event[] events = new Event[ar.length()];
+
+                    for (int i = 0; i < ar.length(); i++)
+                    {
+                        JSONObject obj = ar.getJSONObject(i);
+                        Event e = new Event();
+
+                        e.setId(obj.getString("_id"));
+                        e.setName(obj.getString("name"));
+//                        e.setDate(new Date(obj.getString("date")));
+                        e.setMinAge(obj.getInt("minAge"));
+                        e.setCity(obj.getString("city"));
+                        e.setAddress(obj.getString("address"));
+                        e.setAttend(obj.getInt("attend"));
+                        e.setMaxCap(obj.getInt("maxCap"));
+                        e.setOrgName(obj.getString("orgName"));
+
+                        try
+                        {
+                            e.setCanEdit(obj.getBoolean("canEdit"));
+                        }
+                        catch (JSONException ex)
+                        {
+                            e.setCanEdit(false);
+                        }
+
+                        events[i] = e;
+                    }
+
+                    return  events;
+                } 
+                catch (IOException | JSONException e)
+                {
+                    return null;
+                }
+            }
+        };
+
+        as.execute();
+        try
+        {
+            Event[] events = as.get();
+            return events;
+        }
+        catch (InterruptedException | ExecutionException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
+    public void Attend(String id, final int maxCap, Fragment fragment, final Activity activity, final DummyContent.DummyItem[] dm)
+    {
+        final String path = eventUrl + "/attend";
+
+        JSONObject json = new JSONObject();
+        try
+        {
+            json.put("eventId", id);
+        }
+        catch (JSONException e)
+        {
+            ShowToast(e.getMessage());
+            return;
+        }
+
+        Log.d(TAG, "Trying to ATTEND on: " + path);
+        RequestBody body = RequestBody.create(JSON, json.toString());
+        Request request = new Request
+                .Builder()
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Bearer " + token)
+                .url(path)
+                .post(body)
+                .build();
+
+        client.newCall(request)
+                .enqueue(new Callback()
+                {
+                    @Override
+                    public void onFailure(Call call, final IOException e)
+                    {
+                        Log.d(TAG, "Error: " + e.getMessage());
+                        ShowToast(activity, e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response resp) throws IOException
+                    {
+                        Log.d(TAG, "ATTEND request " + path + " returned code: " + resp.code());
+
+                        final String strResp = resp.body().string();
+                        try
+                        {
+                            final JSONObject json = new JSONObject(strResp);
+                            if (resp.isSuccessful())
+                            {
+                                Log.d(TAG, "Attend Success");
+
+                                context.runOnUiThread(new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        try
+                                        {
+                                            dm[0].attend = json.getInt("attend");
+                                            ((TextView) activity.findViewById(R.id.tvEvAttend)).setText("Attend / Capacity: " + json.getInt("attend") + " / " + maxCap);
+                                        }
+                                        catch (JSONException ignored)
+                                        {
+
+                                        }
+
+                                    }
+                                });
+
+                                ShowToast(activity, "Success");
+                            }
+                            else
+                            {
+                                String msg = (String) (((JSONArray) json.get("issue")).getJSONObject(0).get("error"));
+                                Log.d(TAG, "Attend failed: " + msg);
+                                ShowToast(activity, msg);
+                            }
+                        }
+                        catch (JSONException e)
+                        {
+                            ShowToast(activity, e.getMessage());
+                        }
+                    }
+                });
+
+
+
+
+    }
+    
+    public User getUser()
+    {
+        return user;
+    }
 }

@@ -4,18 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
+import com.example.hlupean.eventsimple.domain.User;
 import com.example.hlupean.eventsimple.dummy.DummyContent;
+import com.example.hlupean.eventsimple.net.NetController;
 
 import java.util.List;
 
@@ -35,6 +35,7 @@ public class EventListActivity extends AppCompatActivity
      * device.
      */
     private boolean mTwoPane;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,19 +43,56 @@ public class EventListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
 
+        user = NetController.getInstance().getUser();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
+
+        if (user.isOrg())
         {
-            @Override
-            public void onClick(View view)
+//            fab.setOnClickListener(new View.OnClickListener()
+//            {
+//                @Override
+//                public void onClick(View view)
+//                {
+//                    Snackbar.make(view, "ADDDDDDDDDdd", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+//                }
+//            });
+
+            fab.setOnClickListener(new View.OnClickListener()
             {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
+                @Override
+                public void onClick(View v)
+                {
+                    if (mTwoPane)
+                    {
+                        Bundle arguments = new Bundle();
+                        arguments.putString(EventDetailFragment.ARG_ITEM_ID, null);
+                        EventDetailFragment fragment = new EventDetailFragment();
+                        fragment.setArguments(arguments);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.event_detail_container, fragment).commit();
+                    }
+                    else
+                    {
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context, EventDetailActivity.class);
+                        intent.putExtra(EventDetailFragment.ARG_ITEM_ID, (String) null);
+
+                        context.startActivity(intent);
+                    }
+                }
+            });
+
+
+        }
+        else
+        {
+            fab.setVisibility(View.GONE);
+        }
+
 
         View recyclerView = findViewById(R.id.event_list);
         assert recyclerView != null;
@@ -95,9 +133,16 @@ public class EventListActivity extends AppCompatActivity
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position)
         {
+            DummyContent.DummyItem dummy = mValues.get(position);
+            String txt = dummy.name;
+            if (dummy.canEdit)
+            {
+                holder.mIdView.setTextColor(0xff0000ff); //red: 0xffff0000, blue: 0xff0000ff
+//                txt += " (EDIT)";
+            }
             holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.mIdView.setText(txt);
+            holder.mContentView.setText(dummy.city);
 
             holder.mView.setOnClickListener(new View.OnClickListener()
             {
@@ -111,7 +156,8 @@ public class EventListActivity extends AppCompatActivity
                         EventDetailFragment fragment = new EventDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction().replace(R.id.event_detail_container, fragment).commit();
-                    } else
+                    }
+                    else
                     {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, EventDetailActivity.class);
