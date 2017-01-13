@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +12,17 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.hlupean.eventsimple.controller.ControllerEvents;
 import com.example.hlupean.eventsimple.domain.User;
 import com.example.hlupean.eventsimple.dummy.DummyContent;
 import com.example.hlupean.eventsimple.net.NetController;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * A fragment representing a single Event detail screen.
@@ -39,6 +44,7 @@ public class EventDetailFragment extends Fragment
      */
     private DummyContent.DummyItem mItem;
     private User user;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -66,7 +72,7 @@ public class EventDetailFragment extends Fragment
             {
                 if (null != mItem)
                 {
-                    appBarLayout.setTitle(mItem.name + mItem.canEdit);
+                    appBarLayout.setTitle(mItem.name);
                 }
                 else
                 {
@@ -74,29 +80,19 @@ public class EventDetailFragment extends Fragment
                 }
             }
 
-            FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    Snackbar.make(view, "Saveeeeeeeeeeeeee", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                }
-            });
-
-
+            // >>>>>>>>>>>>>>>> ADD
             if (null == mItem)
             {
-                // add
-                EditText etName = (EditText) activity.findViewById(R.id.etName);
-                EditText etCity = (EditText) activity.findViewById(R.id.etCity);
-                EditText etAddress = (EditText) activity.findViewById(R.id.etAddress);
-                DatePicker dpDate = (DatePicker) activity.findViewById(R.id.dpDate);
-                EditText etMinAge = (EditText) activity.findViewById(R.id.etMinAge);
-                EditText etAttend = (EditText) activity.findViewById(R.id.etAttend);
+                final EditText etName = (EditText) activity.findViewById(R.id.etName);
+                final EditText etCity = (EditText) activity.findViewById(R.id.etCity);
+                final EditText etAddress = (EditText) activity.findViewById(R.id.etAddress);
+                final DatePicker dpDate = (DatePicker) activity.findViewById(R.id.dpDate);
+                final TimePicker tpDate = (TimePicker) activity.findViewById(R.id.tpDate);
+                final EditText etMinAge = (EditText) activity.findViewById(R.id.etMinAge);
+                final EditText etAttend = (EditText) activity.findViewById(R.id.etAttend);
                 TextView tvCap = (TextView) activity.findViewById(R.id.tvEvCapacity);
-                EditText etCap = (EditText) activity.findViewById(R.id.etCapacity);
-                TextView tvOrg = (TextView) activity.findViewById(R.id.tvOrg);
+                final EditText etCap = (EditText) activity.findViewById(R.id.etCapacity);
+                final TextView tvOrg = (TextView) activity.findViewById(R.id.tvOrg);
                 Button btnAttend = (Button) activity.findViewById(R.id.btnEvAttend);
 
                 ((TextView) activity.findViewById(R.id.tvEvName)).setText("Name");
@@ -119,23 +115,75 @@ public class EventDetailFragment extends Fragment
                 etAttend.setVisibility(View.VISIBLE);
                 etCap.setVisibility(View.VISIBLE);
 
+                final Calendar dateToAdd = Calendar.getInstance();
+                final String orgNameToAdd = user.getUsername();
+
                 dpDate.setVisibility(View.VISIBLE);
-                /// ?????????
+                dpDate.init(
+                        Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
+                        new DatePicker.OnDateChangedListener() {
+                            @Override
+                            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+                            {
+                                dateToAdd.set(Calendar.YEAR, year);
+                                dateToAdd.set(Calendar.MONTH, monthOfYear);
+                                dateToAdd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                            }
+                        });
+
+                tpDate.setVisibility(View.VISIBLE);
+                tpDate.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener()
+                {
+                    @Override
+                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute)
+                    {
+                        dateToAdd.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        dateToAdd.set(Calendar.MINUTE, minute);
+                    }
+                });
+
+
+                final EventDetailFragment aux = this;
+                FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.fab);
+                fab.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        ctr.SaveEvent(
+                                null,
+                                etName.getText().toString(),
+                                etCity.getText().toString(),
+                                etAddress.getText().toString(),
+                                dateToAdd.getTime(),
+                                etMinAge.getText().toString(),
+                                etAttend.getText().toString(),
+                                etCap.getText().toString(),
+                                orgNameToAdd,
+                                activity,
+                                aux
+                        );
+                    }
+                });
 
 
             }
+            // >>>>>>>>>>>>>>>> VIEW
             else if (!mItem.canEdit)
             {
-                // view
+                String dateToPrint;
+                DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.ENGLISH);
+                dateToPrint = df.format(mItem.date);
+
                 ((TextView) activity.findViewById(R.id.tvEvName)).setText("Name: " + mItem.name);
                 ((TextView) activity.findViewById(R.id.tvEvCity)).setText("City: " + mItem.city);
                 ((TextView) activity.findViewById(R.id.tvEvAddress)).setText("Address: " + mItem.address);
-                ((TextView) activity.findViewById(R.id.tvEvDate)).setText("Date: " + mItem.date);
+                ((TextView) activity.findViewById(R.id.tvEvDate)).setText("Date: " + dateToPrint);//mItem.date);
                 ((TextView) activity.findViewById(R.id.tvEvMinAge)).setText("Minimum Age: " + mItem.minAge);
                 ((TextView) activity.findViewById(R.id.tvEvAttend)).setText("Attend / Capacity: " + mItem.attend + " / " + mItem.maxCap);
                 ((TextView) activity.findViewById(R.id.tvOrg)).setText("Organizer: " + mItem.orgName);
                 activity.findViewById(R.id.fab).setVisibility(View.GONE);
-    
+
                 final Fragment aux = this;
                 Button btnAttend = (Button) activity.findViewById(R.id.btnEvAttend);
 
@@ -150,17 +198,18 @@ public class EventDetailFragment extends Fragment
                     }
                 });
             }
+            // >>>>>>>>>>>>>>>> EDIT
             else
             {
-                // edit
-                EditText etName = (EditText) activity.findViewById(R.id.etName);
-                EditText etCity = (EditText) activity.findViewById(R.id.etCity);
-                EditText etAddress = (EditText) activity.findViewById(R.id.etAddress);
+                final EditText etName = (EditText) activity.findViewById(R.id.etName);
+                final EditText etCity = (EditText) activity.findViewById(R.id.etCity);
+                final EditText etAddress = (EditText) activity.findViewById(R.id.etAddress);
                 DatePicker dpDate = (DatePicker) activity.findViewById(R.id.dpDate);
-                EditText etMinAge = (EditText) activity.findViewById(R.id.etMinAge);
-                EditText etAttend = (EditText) activity.findViewById(R.id.etAttend);
+                TimePicker tpDate = (TimePicker) activity.findViewById(R.id.tpDate);
+                final EditText etMinAge = (EditText) activity.findViewById(R.id.etMinAge);
+                final EditText etAttend = (EditText) activity.findViewById(R.id.etAttend);
                 TextView tvCap = (TextView) activity.findViewById(R.id.tvEvCapacity);
-                EditText etCap = (EditText) activity.findViewById(R.id.etCapacity);
+                final EditText etCap = (EditText) activity.findViewById(R.id.etCapacity);
                 TextView tvOrg = (TextView) activity.findViewById(R.id.tvOrg);
                 Button btnAttend = (Button) activity.findViewById(R.id.btnEvAttend);
 
@@ -170,6 +219,8 @@ public class EventDetailFragment extends Fragment
                 ((TextView) activity.findViewById(R.id.tvEvDate)).setText("Date");
                 ((TextView) activity.findViewById(R.id.tvEvMinAge)).setText("Minimum Age");
                 ((TextView) activity.findViewById(R.id.tvEvAttend)).setText("Attend");
+
+                final Calendar dateToAdd = Calendar.getInstance();
 
 
                 tvCap.setText("Capacity");
@@ -185,9 +236,37 @@ public class EventDetailFragment extends Fragment
                 etAddress.setVisibility(View.VISIBLE);
                 etAddress.setText(mItem.address);
 
-                dpDate.setVisibility(View.VISIBLE);
-                /// ?????????
 
+                Calendar calMinDate = Calendar.getInstance();
+                calMinDate.set(
+                        Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
+                        Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND)
+                );
+
+                dpDate.setMinDate(calMinDate.getTimeInMillis());
+                dpDate.init(
+                        Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
+                        new DatePicker.OnDateChangedListener() {
+                            @Override
+                            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+                            {
+                                dateToAdd.set(Calendar.YEAR, year);
+                                dateToAdd.set(Calendar.MONTH, monthOfYear);
+                                dateToAdd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                            }
+                        });
+                dpDate.setVisibility(View.VISIBLE);
+
+                tpDate.setVisibility(View.VISIBLE);
+                tpDate.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener()
+                {
+                    @Override
+                    public void onTimeChanged(TimePicker view, int hourOfDay, int minute)
+                    {
+                        dateToAdd.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        dateToAdd.set(Calendar.MINUTE, minute);
+                    }
+                });
                 etMinAge.setVisibility(View.VISIBLE);
                 etMinAge.setText(String.valueOf(mItem.minAge));
 
@@ -199,6 +278,40 @@ public class EventDetailFragment extends Fragment
 
                 btnAttend.setText("Delete");
                 btnAttend.setBackgroundColor(0xffff0000);
+                final String orgNameToAdd = user.getUsername();
+                final EventDetailFragment aux = this;
+
+                FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.fab);
+                fab.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        ctr.SaveEvent(
+                                mItem._id,
+                                etName.getText().toString(),
+                                etCity.getText().toString(),
+                                etAddress.getText().toString(),
+                                dateToAdd.getTime(),
+                                etMinAge.getText().toString(),
+                                etAttend.getText().toString(),
+                                etCap.getText().toString(),
+                                orgNameToAdd,
+                                activity,
+                                aux
+                        );
+                    }
+                });
+
+
+                btnAttend.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        ctr.DeleteEvent(mItem, activity);
+                    }
+                });
             }
 
 
@@ -208,8 +321,7 @@ public class EventDetailFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        Activity activity = this.getActivity();
-
+//        Activity activity = this.getActivity();
 //        View rootView = inflater.inflate(R.layout.event_detail, container, false);
 //
 //        // Show the dummy content as text in a TextView.

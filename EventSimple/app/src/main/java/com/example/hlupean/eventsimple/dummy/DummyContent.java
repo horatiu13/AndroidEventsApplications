@@ -2,8 +2,10 @@ package com.example.hlupean.eventsimple.dummy;
 
 import com.example.hlupean.eventsimple.controller.ControllerEvents;
 import com.example.hlupean.eventsimple.domain.Event;
+import com.example.hlupean.eventsimple.net.NetController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,16 +32,23 @@ public class DummyContent
 
     private static int COUNT = 0;
 
-    static
+    public DummyContent()
     {
+        ITEMS.clear();
+        ITEM_MAP.clear();
         ControllerEvents ctr = ControllerEvents.getInstance();
         Event[] lstEv = ctr.GetAllEvents();
+        Event.currentUser = NetController.getInstance().getUser();
+
+        COUNT = 0;
 
         if (null != lstEv)
         {
+            Arrays.sort(lstEv);
             COUNT = lstEv.length;
             for (int i = 0; i < COUNT; i++)
             {
+
                 addItem(createDummyItem(lstEv[i]));
             }
         }
@@ -112,7 +121,25 @@ public class DummyContent
             orgName = ev.getOrgName();
             canEdit = ev.getCanEdit();
         }
+    
+        public DummyItem(DummyItem d)
+        {
+            id = d.id;
+            content = d.city + ", " + d.address;
+            details = d.city + " " + d.canEdit + " " + d.orgName;
 
+            _id = d._id;
+            name = d.name;
+            date = d.date;
+            minAge = d.minAge;
+            city = d.city;
+            address = d.address;
+            attend = d.attend;
+            maxCap = d.maxCap;
+            orgName = d.orgName;
+            canEdit = d.canEdit;
+        }
+    
         @Override
         public String toString()
         {

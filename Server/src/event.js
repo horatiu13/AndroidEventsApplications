@@ -233,7 +233,6 @@ export class EventRouter extends Router
             
             if (u.orgName === user)
             {
-                log('da');
                 u.canEdit = true;
             }
         }

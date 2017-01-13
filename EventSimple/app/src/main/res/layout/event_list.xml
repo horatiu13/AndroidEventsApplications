@@ -4,10 +4,12 @@
                                         xmlns:tools = "http://schemas.android.com/tools"
                                         android:id = "@+id/event_list"
                                         android:name = "com.example.hlupean.eventsimple.EventListFragment"
+
                                         android:layout_width = "match_parent"
                                         android:layout_height = "match_parent"
                                         android:layout_marginLeft = "16dp"
                                         android:layout_marginRight = "16dp"
                                         app:layoutManager = "LinearLayoutManager"
                                         tools:context = "com.example.hlupean.eventsimple.EventListActivity"
-                                        tools:listitem = "@layout/event_list_content"/>
+                                        tools:listitem = "@layout/event_list_content"
+                                        app:layout_scrollFlags = "scroll"/>

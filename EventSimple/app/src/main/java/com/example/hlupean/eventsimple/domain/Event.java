@@ -1,8 +1,10 @@
 package com.example.hlupean.eventsimple.domain;
 
+import android.support.annotation.NonNull;
+
 import java.util.Date;
 
-public class Event
+public class Event implements Comparable<Event>
 {
     private String  _id;
     private String  name;
@@ -15,11 +17,26 @@ public class Event
     private String  orgName;
     private boolean canEdit;
 
+    public static User currentUser = null;
+
     public Event()
     {
 
     }
-
+    
+    public Event(String id, String name, String city, String address, Date d, int minAge, int attend, int maxCap, String org)
+    {
+        this._id = id;
+        this.name = name;
+        this.date = d;
+        this.city = city;
+        this.address = address;
+        this.minAge = minAge;
+        this.attend = attend;
+        this.maxCap = maxCap;
+        this.orgName = org;
+    }
+    
     @Override
     public String toString() {
         String str = "Name: " + name;
@@ -124,5 +141,14 @@ public class Event
     public void setCanEdit(boolean canEdit)
     {
         this.canEdit = canEdit;
+    }
+
+    @Override
+    public int compareTo(@NonNull Event o)
+    {
+
+        if (o.canEdit == canEdit) return date.compareTo(o.date);
+        if (canEdit) return  -1;
+        return 1;
     }
 }

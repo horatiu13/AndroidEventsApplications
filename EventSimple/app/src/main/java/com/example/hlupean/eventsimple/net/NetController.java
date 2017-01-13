@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hlupean.eventsimple.EventDetailFragment;
 import com.example.hlupean.eventsimple.EventListActivity;
 import com.example.hlupean.eventsimple.R;
 import com.example.hlupean.eventsimple.domain.Event;
@@ -19,7 +20,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.Call;
@@ -284,10 +289,40 @@ public class NetController
                     {
                         JSONObject obj = ar.getJSONObject(i);
                         Event e = new Event();
+                        Date d;
 
+                        try
+                        {
+                            int dateInt = obj.getInt("date");
+                            d = new Date(dateInt);
+                        }
+                        catch (JSONException ignored)
+                        {
+                            String dateString = obj.getString("date");
+                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);
+
+                            try
+                            {
+                                d = df.parse(dateString);
+                            }
+                            catch (ParseException e1)
+                            {
+                                try
+                                {
+                                    DateFormat df2 = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy", Locale.ENGLISH);
+                                    d = df2.parse(dateString);
+                                }
+                                catch (ParseException e2)
+                                {
+                                    d = null;
+                                }
+                            }
+                        }
+
+//                        Fri Jan 13 12:32:08 GMT+02:00 2017
                         e.setId(obj.getString("_id"));
                         e.setName(obj.getString("name"));
-//                        e.setDate(new Date(obj.getString("date")));
+                        e.setDate(d);
                         e.setMinAge(obj.getInt("minAge"));
                         e.setCity(obj.getString("city"));
                         e.setAddress(obj.getString("address"));
@@ -393,7 +428,6 @@ public class NetController
                                         {
 
                                         }
-
                                     }
                                 });
 
@@ -412,14 +446,162 @@ public class NetController
                         }
                     }
                 });
-
-
-
-
     }
     
     public User getUser()
     {
         return user;
+    }
+    
+    public void SaveEvent(final Event ev, final Activity activity, final EventDetailFragment frag)
+    {
+        String path = eventUrl + "/";
+
+        if (ev.getId() != null)
+        {
+            path = path + ev.getId();
+        }
+
+        JSONObject json = new JSONObject();
+        try
+        {
+            json.put("_id", ev.getId());
+            json.put("name", ev.getName());
+            json.put("city", ev.getCity());
+            json.put("address", ev.getAddress());
+            json.put("orgName", ev.getOrgName());
+            json.put("minAge", ev.getMinAge());
+            json.put("attend", ev.getAttend());
+            json.put("maxCap", ev.getMaxCap());
+            json.put("date", ev.getDate());
+
+            RequestBody body = RequestBody.create(JSON, json.toString());
+            Request request;
+            if (ev.getId() != null)
+            {
+                Log.d(TAG, "Trying to UPDATE on: " + path);
+                request = new Request
+                        .Builder()
+                        .addHeader("Accept", "application/json")
+                        .addHeader("Content-Type", "application/json")
+                        .addHeader("Authorization", "Bearer " + token)
+                        .url(path)
+                        .put(body)
+                        .build();
+            }
+            else
+            {
+                Log.d(TAG, "Trying to CREATE on: " + path);
+                request = new Request
+                        .Builder()
+                        .addHeader("Accept", "application/json")
+                        .addHeader("Content-Type", "application/json")
+                        .addHeader("Authorization", "Bearer " + token)
+                        .url(path)
+                        .post(body)
+                        .build();
+            }
+
+            client.newCall(request)
+                    .enqueue(new Callback()
+                    {
+                        @Override
+                        public void onFailure(Call call, final IOException e)
+                        {
+                            Log.d(TAG, "Error: " + e.getMessage());
+                            ShowToast(activity, e.getMessage());
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response resp) throws IOException
+                        {
+                            Log.d(TAG, "SAVE request returned code: " + resp.code());
+
+                            final String strResp = resp.body().string();
+                            try
+                            {
+                                final JSONObject json = new JSONObject(strResp);
+                                if (resp.isSuccessful())
+                                {
+                                    Log.d(TAG, "Save Success");
+
+                                    activity.runOnUiThread(new Runnable()
+                                    {
+                                        @Override
+                                        public void run()
+                                        {
+                                            activity.finish();
+                                        }
+                                    });
+
+                                    ShowToast(activity, "Event Saved");
+                                }
+                                else
+                                {
+                                    String msg = ((String) (((JSONArray) json.get("issue")).getJSONObject(0).get("error"))).trim();
+                                    Log.d(TAG, msg);
+                                    ShowToast(activity, msg);
+                                }
+                            }
+                            catch (JSONException e)
+                            {
+                                ShowToast(activity, e.getMessage());
+                            }
+                        }
+                    });
+
+        }
+        catch (JSONException e)
+        {
+            ShowToast(activity, e.getMessage());
+        }
+    }
+    
+    public void DeleteEvent(String id, final Activity activity)
+    {
+        final String path = eventUrl + "/" + id;
+
+        Log.d(TAG, "Trying to DELETE on: " + path);
+
+        Request request = new Request
+                .Builder()
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Bearer " + token)
+                .url(path)
+                .delete()
+                .build();
+
+        client.newCall(request)
+                .enqueue(new Callback()
+                {
+                    @Override
+                    public void onFailure(Call call, final IOException e)
+                    {
+                        Log.d(TAG, "Error: " + e.getMessage());
+                        ShowToast(activity, e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response resp) throws IOException
+                    {
+                        Log.d(TAG, "DELETE request " + path + " returned code: " + resp.code());
+
+                        Log.d(TAG, "Delete Success");
+
+                        activity.runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                activity.finish();
+                            }
+                        });
+
+                        ShowToast(activity, "Event Deleted");
+                    }
+                });
+
+
     }
 }

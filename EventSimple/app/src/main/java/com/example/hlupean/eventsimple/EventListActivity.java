@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,10 @@ import com.example.hlupean.eventsimple.domain.User;
 import com.example.hlupean.eventsimple.dummy.DummyContent;
 import com.example.hlupean.eventsimple.net.NetController;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * An activity representing a list of Events. This activity
@@ -34,16 +38,25 @@ public class EventListActivity extends AppCompatActivity
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
+    private static final String TAG = EventListActivity.class.getSimpleName();
+
     private boolean mTwoPane;
-    private User user;
+    DummyContent dummyContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
+        LoadActivity();
+    }
+
+    public void LoadActivity()
+    {
         setContentView(R.layout.activity_event_list);
 
-        user = NetController.getInstance().getUser();
+        dummyContent = new DummyContent();
+        User user = NetController.getInstance().getUser();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,15 +66,6 @@ public class EventListActivity extends AppCompatActivity
 
         if (user.isOrg())
         {
-//            fab.setOnClickListener(new View.OnClickListener()
-//            {
-//                @Override
-//                public void onClick(View view)
-//                {
-//                    Snackbar.make(view, "ADDDDDDDDDdd", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-//                }
-//            });
-
             fab.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -85,8 +89,6 @@ public class EventListActivity extends AppCompatActivity
                     }
                 }
             });
-
-
         }
         else
         {
@@ -110,6 +112,7 @@ public class EventListActivity extends AppCompatActivity
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView)
     {
+        Log.d(TAG, "setupRecyclerView");
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
     }
 
@@ -140,9 +143,12 @@ public class EventListActivity extends AppCompatActivity
                 holder.mIdView.setTextColor(0xff0000ff); //red: 0xffff0000, blue: 0xff0000ff
 //                txt += " (EDIT)";
             }
+
+            DateFormat df = new SimpleDateFormat("dd-MM HH:mm", Locale.ENGLISH);
+            String contToPrint = df.format(dummy.date);/* + ", " + dummy.city;*/
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(txt);
-            holder.mContentView.setText(dummy.city);
+            holder.mContentView.setText(contToPrint);
 
             holder.mView.setOnClickListener(new View.OnClickListener()
             {
