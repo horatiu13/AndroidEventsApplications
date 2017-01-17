@@ -20,13 +20,21 @@ const styles = StyleSheet.create({
     },
 
     selectableText: {
-        color: 'red'
+        color: 'blue',
+        margin: 2,
+        padding: 1,
+        marginLeft: 10
     },
 
-
     deleteButton: {
-        color: 'red',
-        alignItems: 'center'
+        
+        margin: 20,
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: 'red',
+        alignItems: 'center',
+        color: 'white',
+        textAlign: 'center',
     },
 
 });

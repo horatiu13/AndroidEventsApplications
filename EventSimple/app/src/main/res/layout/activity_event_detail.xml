@@ -80,6 +80,7 @@
                 android:layout_height = "wrap_content"
                 android:id = "@+id/tvEvAddress"/>
 
+
             <EditText
                 android:layout_width = "match_parent"
                 android:layout_height = "wrap_content"
@@ -157,7 +158,7 @@
                 android:id = "@+id/tvOrg"/>
 
             <Button
-                android:text = "Attend"
+                android:text = "@string/attend"
                 android:layout_width = "match_parent"
                 android:layout_height = "wrap_content"
                 android:id = "@+id/btnEvAttend"/>

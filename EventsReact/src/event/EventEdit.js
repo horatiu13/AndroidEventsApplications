@@ -104,11 +104,11 @@ export class EventEdit extends Component {
                 <Text>Capacity</Text>
                 <TextInput value={maxCap} onChangeText={(text) => {this.updateMaxCap(Number(text))}}/>
 
-                <TouchableNativeFeedback onPress={this.onDelete.bind(this)}>
+                {!!deleteText && <TouchableNativeFeedback onPress={this.onDelete.bind(this)}>
                     <View>
-                        <Text style={styles.deleteButton}>{deleteText}</Text>
+                         <Text style={styles.deleteButton}>{deleteText}</Text>
                     </View>
-                </TouchableNativeFeedback>
+                </TouchableNativeFeedback>}
                            
                 {message && <Text>{message}</Text>}
             </View>

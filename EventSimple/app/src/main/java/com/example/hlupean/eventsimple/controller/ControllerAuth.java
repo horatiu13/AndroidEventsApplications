@@ -2,6 +2,7 @@ package com.example.hlupean.eventsimple.controller;
 
 
 import android.app.Activity;
+import android.widget.ProgressBar;
 
 import com.example.hlupean.eventsimple.net.NetController;
 
@@ -33,9 +34,9 @@ public class ControllerAuth
         this.context = context;
     }
 
-    public void Login(String username, String password)
+    public void Login(String username, String password, ProgressBar pbLogin)
     {
-        this.net.Login(username, password);
+        this.net.Login(username, password, pbLogin);
     }
 
     public void Register(String username, String password, String mail, String city, Date date, boolean isOrg)

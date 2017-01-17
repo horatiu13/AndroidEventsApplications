@@ -1,10 +1,14 @@
 package com.example.hlupean.eventsimple.net;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -115,7 +119,7 @@ public class NetController
         this.context = context;
     }
 
-    public void Login(String username, String password)
+    public void Login(String username, String password, final ProgressBar pbLogin)
     {
         final String path = authUrl + "/session";
 
@@ -172,7 +176,19 @@ public class NetController
                                 String msg = (String) (((JSONArray) json.get("issue")).getJSONObject(0).get("error"));
                                 Log.d(TAG, "Login failed: " + msg);
                                 ShowToast(msg);
+                                context.runOnUiThread(new Runnable()
+                                {
+                                    @Override
+                                    public void run()
+                                    {
+                                        pbLogin.setVisibility(View.GONE);
+                                    }
+                                });
+                                Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+
+                                v.vibrate(500);
                             }
+
                         }
                         catch (JSONException e)
                         {
@@ -423,6 +439,15 @@ public class NetController
                                         {
                                             dm[0].attend = json.getInt("attend");
                                             ((TextView) activity.findViewById(R.id.tvEvAttend)).setText("Attend / Capacity: " + json.getInt("attend") + " / " + maxCap);
+
+                                            // Calendar... android :|
+//                                            Intent calIntent = new Intent(Intent.ACTION_INSERT);
+//                                            calIntent.setData(CalendarContract.Events.CONTENT_URI);
+//
+//                                            activity.startActivity(calIntent);
+
+
+//                                            activity.overridePendingTransition(R.anim.hold, R.anim.fade_in);
                                         }
                                         catch (JSONException ignored)
                                         {

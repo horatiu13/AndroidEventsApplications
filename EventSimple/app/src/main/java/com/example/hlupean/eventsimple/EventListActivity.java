@@ -141,7 +141,7 @@ public class EventListActivity extends AppCompatActivity
             if (dummy.canEdit)
             {
                 holder.mIdView.setTextColor(0xff0000ff); //red: 0xffff0000, blue: 0xff0000ff
-//                txt += " (EDIT)";
+                txt += " (EDIT)";
             }
 
             DateFormat df = new SimpleDateFormat("dd-MM HH:mm", Locale.ENGLISH);

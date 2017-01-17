@@ -10,6 +10,8 @@ export class EventView extends Component {
     
     render()
     {
+        let d = new Date(this.props.event.date);
+        let dateString = d.getDay() + "." + d.getMonth() + "." + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes();
         
         if (this.props.event.orgName === this.username)
         {
@@ -17,8 +19,8 @@ export class EventView extends Component {
             return (
                 <TouchableHighlight onPress={() => this.props.onPressEdit(this.props.event)}>
                     <View style={styles.listItem}>
-                        <Text style={StyleSheet.flatten([styles.details, styles.title])}>{this.props.event.name}</Text>
-                        <Text style={styles.details}>City: {this.props.event.city}</Text>
+                        <Text style={StyleSheet.flatten([styles.details, styles.editableText])}>{this.props.event.name} (EDIT)</Text>
+                        <Text style={[styles.details, styles.editableText]}>Date: {dateString}</Text>
                     </View>
                 </TouchableHighlight>
             );
@@ -30,7 +32,7 @@ export class EventView extends Component {
                 <TouchableHighlight onPress={() => this.props.onPressDetails(this.props.event)}>
                     <View style={styles.listItem}>
                         <Text style={StyleSheet.flatten([styles.details])}>{this.props.event.name}</Text>
-                        <Text style={styles.details}>City: {this.props.event.city}</Text>
+                        <Text style={[styles.detail]}>Date: {dateString}</Text>
                     </View>
                 </TouchableHighlight>
             );
@@ -39,8 +41,8 @@ export class EventView extends Component {
 }
 // StyleSheet.flatten([styles.listItem, styles.selectedListItem])
 const styles = StyleSheet.create({
-    title:{
-        color: 'red'
+    editableText:{
+        color: 'blue'
     },
     details:{
         fontSize: 16

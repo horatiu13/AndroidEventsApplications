@@ -1,74 +1,15 @@
-{"name":"lll","city":"lll","address":"lll","orgName":"bbb","minAge":11,"attend":12,"maxCap":14,"date":"Fri Jan 13 12:32:08 GMT+02:00 2017","version":1,"updated":1484303527822,"_id":"1ymXNuW0Sfcqgkc9"}
-{"name":"1111111","city":"123","address":"14","orgName":"bbb","minAge":12,"attend":14,"maxCap":15,"date":"Fri Jan 13 11:38:00 GMT+02:00 2017","version":1,"updated":1484300280305,"_id":"Dp4o2BvcuXz7bZQm"}
-{"_id":"HaV2YsYQxj2qZltX","name":"nouayyaaaaa111","city":"adga","address":"adafh","orgName":"o","minAge":11,"attend":12,"maxCap":15,"date":"Fri Jan 13 16:05:12 GMT+02:00 2017","updated":1484316313968}
-{"_id":"JxsHZfz0ncrUuEZp","name":"adf55","city":"adgad","address":"agha","orgName":"o","minAge":31,"attend":33,"maxCap":555,"date":"Fri Jan 13 16:06:14 GMT+02:00 2017","updated":1484316377855}
-{"name":"oooooo","city":"oooo","address":"oooo","orgName":"bbb","minAge":123,"attend":15,"maxCap":16,"date":"Fri Jan 13 12:38:26 GMT+02:00 2017","version":1,"updated":1484303905939,"_id":"NThhtMthqWlWH3NF"}
-{"name":"trag in ma-ta","city":"136531","address":"6143","orgName":"o","minAge":171,"attend":1,"maxCap":5,"date":"Fri Jan 13 14:21:58 GMT+02:00 2017","version":1,"updated":1484310119281,"_id":"O23X7P0puP1IDoR1"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":241,"maxCap":2222,"version":1,"updated":1484115826354,"_id":"PW5cOBjtylwj0m6u"}
-{"name":"sdghf","city":"sdfghf","address":"agdxc","orgName":"o","minAge":21,"attend":13,"maxCap":55,"date":"Fri Jan 13 10:59:16 GMT+02:00 2017","version":1,"updated":1484297956026,"_id":"PymwphARXHByMJ6e"}
-{"_id":"ZZrXUfAbxDiQXXDR","name":"ma-ta","city":"154","address":"135","orgName":"o","minAge":11,"attend":12,"maxCap":15,"date":"Tue Jan 31 18:00:47 GMT+02:00 2017","updated":1484313354531}
-{"orgName":"o","date":"2017-01-10T16:30:00.000Z","name":"Revelion","city":"Cluj","address":"Momo 1","minAge":12,"attend":11,"maxCap":33,"version":1,"updated":1483790068833,"_id":"a9xpaToSw4n7wx8G"}
-{"name":"Event 4","date":1480766518026,"minAge":4,"city":"City 4","address":"Adderss 4","attend":25,"maxCap":25,"orgName":"org","canEdit":false,"_id":"aTpV4zh2dwpfKn3N","updated":1480782987058}
-{"name":"......","city":"........","address":"......","orgName":"o","minAge":15,"attend":16,"maxCap":18,"date":"Fri Jan 13 12:42:36 GMT+02:00 2017","version":1,"updated":1484304155460,"_id":"bmnSJC1pQUX3x5CZ"}
-{"orgName":"o","date":"2017-01-11T04:25:00.000Z","name":"Craciun","city":"Medias","address":"Govora","minAge":18,"attend":20,"maxCap":30,"version":1,"updated":1483790109948,"_id":"eR41HmgrOfOgFFdk"}
-{"name":"gggg","city":"asefg","address":"sfgs","orgName":"o","minAge":12,"attend":15,"maxCap":22,"date":"Fri Jan 13 11:35:00 GMT+02:00 2017","version":1,"updated":1484300100068,"_id":"f68pKSjjcyWlLjZK"}
-{"name":"999","city":"999","address":"9999","orgName":"o","minAge":9,"attend":5,"maxCap":55,"date":"Fri Jan 13 14:58:58 GMT+02:00 2017","version":1,"updated":1484312430084,"_id":"gsAtOaoWsqrmynIs"}
-{"name":"Pastele cailor","city":"Peste Tot","address":"Acolo","orgName":"o","minAge":2,"attend":15,"maxCap":30,"date":"Fri Jan 13 14:10:56 GMT+02:00 2017","version":1,"updated":1484309456138,"_id":"lqIvpQePXO9W1lDr"}
-{"name":"sa ma sugi","city":"1251356","address":"135","orgName":"bbb","minAge":12,"attend":16,"maxCap":17,"date":"Fri Jan 13 12:56:38 GMT+02:00 2017","version":1,"updated":1484304997369,"_id":"o3XbI7z6uFfw6H6Y"}
-{"name":"999999","city":"9999999","address":"9999999","orgName":"bbb","minAge":15,"attend":20,"maxCap":30,"date":"Fri Jan 13 14:54:33 GMT+02:00 2017","version":1,"updated":1484312239195,"_id":"q6Rnqq3MccRtCGhM"}
-{"name":"Event 0","date":1480766518019,"minAge":0,"city":"City 0","address":"Adderss 0","attend":5,"maxCap":5,"orgName":"org","canEdit":false,"_id":"vPvxIPYA5dApQQjD","updated":1481394332436}
-{"name":"Event 2","date":1480766518023,"minAge":2,"city":"City 2","address":"Adderss 2","attend":14,"maxCap":15,"orgName":"org","canEdit":false,"_id":"vYptTMROWHDz212E","updated":1483789588300}
-{"name":"morti","city":"raniti","address":"ma-ta","orgName":"o","minAge":50,"attend":50,"maxCap":100,"date":"Fri Jan 13 14:14:16 GMT+02:00 2017","version":1,"updated":1484309762024,"_id":"xrGQ9a10J0AcLsKj"}
-{"name":"trag in ma-ta","city":"136531","address":"6143","orgName":"o","minAge":171,"attend":2,"maxCap":5,"date":"Fri Jan 13 14:21:58 GMT+02:00 2017","version":1,"updated":1484323637067,"_id":"O23X7P0puP1IDoR1"}
-{"name":"trag in ma-ta","city":"136531","address":"6143","orgName":"o","minAge":171,"attend":3,"maxCap":5,"date":"Fri Jan 13 14:21:58 GMT+02:00 2017","version":1,"updated":1484323637809,"_id":"O23X7P0puP1IDoR1"}
-{"name":"sdghf","city":"sdfghf","address":"agdxc","orgName":"o","minAge":21,"attend":14,"maxCap":55,"date":"Fri Jan 13 10:59:16 GMT+02:00 2017","version":1,"updated":1484324029585,"_id":"PymwphARXHByMJ6e"}
-{"name":"sdghf","city":"sdfghf","address":"agdxc","orgName":"o","minAge":21,"attend":15,"maxCap":55,"date":"Fri Jan 13 10:59:16 GMT+02:00 2017","version":1,"updated":1484324029994,"_id":"PymwphARXHByMJ6e"}
-{"name":"sdghf","city":"sdfghf","address":"agdxc","orgName":"o","minAge":21,"attend":16,"maxCap":55,"date":"Fri Jan 13 10:59:16 GMT+02:00 2017","version":1,"updated":1484324030187,"_id":"PymwphARXHByMJ6e"}
-{"name":"sdghf","city":"sdfghf","address":"agdxc","orgName":"o","minAge":21,"attend":17,"maxCap":55,"date":"Fri Jan 13 10:59:16 GMT+02:00 2017","version":1,"updated":1484324030346,"_id":"PymwphARXHByMJ6e"}
-{"name":"sdghf","city":"sdfghf","address":"agdxc","orgName":"o","minAge":21,"attend":18,"maxCap":55,"date":"Fri Jan 13 10:59:16 GMT+02:00 2017","version":1,"updated":1484324030783,"_id":"PymwphARXHByMJ6e"}
-{"name":"1111111","city":"123","address":"14","orgName":"bbb","minAge":12,"attend":15,"maxCap":15,"date":"Fri Jan 13 11:38:00 GMT+02:00 2017","version":1,"updated":1484325099848,"_id":"Dp4o2BvcuXz7bZQm"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":242,"maxCap":2222,"version":1,"updated":1484325519391,"_id":"PW5cOBjtylwj0m6u"}
-{"_id":"JxsHZfz0ncrUuEZp","name":"adf55","city":"adgad","address":"agha","orgName":"o","minAge":31,"attend":34,"maxCap":555,"date":"Fri Jan 13 16:06:14 GMT+02:00 2017","updated":1484325581240}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":243,"maxCap":2222,"version":1,"updated":1484325589379,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":244,"maxCap":2222,"version":1,"updated":1484325589813,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":245,"maxCap":2222,"version":1,"updated":1484325590202,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":246,"maxCap":2222,"version":1,"updated":1484325590254,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":247,"maxCap":2222,"version":1,"updated":1484325590357,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":248,"maxCap":2222,"version":1,"updated":1484325590481,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":249,"maxCap":2222,"version":1,"updated":1484325590648,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":250,"maxCap":2222,"version":1,"updated":1484325590825,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":251,"maxCap":2222,"version":1,"updated":1484325590979,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":252,"maxCap":2222,"version":1,"updated":1484325591149,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":253,"maxCap":2222,"version":1,"updated":1484325591306,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":254,"maxCap":2222,"version":1,"updated":1484325591692,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":255,"maxCap":2222,"version":1,"updated":1484325591849,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":256,"maxCap":2222,"version":1,"updated":1484325591964,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":257,"maxCap":2222,"version":1,"updated":1484325592093,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":258,"maxCap":2222,"version":1,"updated":1484325592223,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":259,"maxCap":2222,"version":1,"updated":1484325592434,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":260,"maxCap":2222,"version":1,"updated":1484325592614,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":261,"maxCap":2222,"version":1,"updated":1484325592798,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":262,"maxCap":2222,"version":1,"updated":1484325592956,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":263,"maxCap":2222,"version":1,"updated":1484325593139,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":264,"maxCap":2222,"version":1,"updated":1484325593461,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":265,"maxCap":2222,"version":1,"updated":1484325593792,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":266,"maxCap":2222,"version":1,"updated":1484325593862,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":267,"maxCap":2222,"version":1,"updated":1484325594004,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":268,"maxCap":2222,"version":1,"updated":1484325594192,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":269,"maxCap":2222,"version":1,"updated":1484325594384,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":270,"maxCap":2222,"version":1,"updated":1484325594609,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":271,"maxCap":2222,"version":1,"updated":1484325594761,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":272,"maxCap":2222,"version":1,"updated":1484325594898,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":273,"maxCap":2222,"version":1,"updated":1484325595062,"_id":"PW5cOBjtylwj0m6u"}
-{"orgName":"bbb","date":"2017-01-11T17:24:00.000Z","name":"abc","city":"abc","address":"adfadfafafs","minAge":123,"attend":274,"maxCap":2222,"version":1,"updated":1484325595253,"_id":"PW5cOBjtylwj0m6u"}
-{"$$deleted":true,"_id":"O23X7P0puP1IDoR1"}
-{"$$deleted":true,"_id":"ZZrXUfAbxDiQXXDR"}
-{"$$deleted":true,"_id":"xrGQ9a10J0AcLsKj"}
-{"_id":"HaV2YsYQxj2qZltX","name":"nouayyaaaaa111","city":"adga","address":"adafh","orgName":"o","minAge":11,"attend":12,"maxCap":15,"date":"Fri Jan 13 18:42:12 GMT+02:00 2017","updated":1484325733843}
-{"_id":"f68pKSjjcyWlLjZK","name":"gggg","city":"asefg","address":"sfgs","orgName":"o","minAge":12,"attend":15,"maxCap":22,"date":"Fri Jan 13 18:42:22 GMT+02:00 2017","updated":1484325742906}
-{"name":"sa ma sugi","city":"1251356","address":"135","orgName":"bbb","minAge":12,"attend":17,"maxCap":17,"date":"Fri Jan 13 12:56:38 GMT+02:00 2017","version":1,"updated":1484325748080,"_id":"o3XbI7z6uFfw6H6Y"}
-{"$$deleted":true,"_id":"HaV2YsYQxj2qZltX"}
-{"name":"lll","city":"lll","address":"lll","orgName":"bbb","minAge":11,"attend":13,"maxCap":14,"date":"Fri Jan 13 12:32:08 GMT+02:00 2017","version":1,"updated":1484326631165,"_id":"1ymXNuW0Sfcqgkc9"}
-{"_id":"lqIvpQePXO9W1lDr","name":"Pastele cailor","city":"Peste Tot","address":"Acolo","orgName":"o","minAge":2,"attend":15,"maxCap":30,"date":"Fri Jan 13 19:11:55 GMT+02:00 2017","updated":1484327516029}
+{"_id":"1ymXNuW0Sfcqgkc9","name":"Eveniment Important","city":"Bucuresti","address":"Fara","orgName":"bbb","minAge":50,"attend":100,"maxCap":1024,"date":"Wed Jul 26 20:12:51 GMT+03:00 2017","updated":1484673225876}
+{"orgName":"a","date":"2017-01-25T16:45:00.000Z","name":"aaa","city":"aaa","address":"aa","minAge":15,"attend":22,"maxCap":222,"version":1,"updated":1484673097080,"_id":"ACrRrkeTOzXxuhCj"}
+{"name":"Concert","city":"Cluj","address":"Piata Unirii","orgName":"bbb","minAge":8,"attend":5002,"maxCap":100000000,"date":"Tue Jan 31 16:15:36 GMT+02:00 2017","version":1,"updated":1484673354388,"_id":"DV0dcXpFdJ9q9VcI"}
+{"_id":"Dp4o2BvcuXz7bZQm","name":"Reuniune","city":"Brasov","address":"Colina 28","orgName":"bbb","minAge":21,"attend":4,"maxCap":6,"date":"Sat Sep 30 05:20:40 GMT+03:00 2017","updated":1484673164867}
+{"_id":"NThhtMthqWlWH3NF","name":"oooooo","city":"oooo","address":"oooo","orgName":"bbb","minAge":123,"attend":15,"maxCap":16,"date":"Fri Jan 27 19:14:07 GMT+02:00 2017","updated":1484673252282}
+{"_id":"PW5cOBjtylwj0m6u","name":"abc","city":"abc","address":"adfadfafafs","orgName":"bbb","minAge":123,"attend":275,"maxCap":2222,"date":"Fri Apr 21 19:14:18 GMT+03:00 2017","updated":1484673263660}
 {"_id":"a9xpaToSw4n7wx8G","name":"Revelion","city":"Cluj","address":"Momo 1","orgName":"o","minAge":12,"attend":11,"maxCap":33,"date":"Sat Aug 05 19:24:35 GMT+03:00 2017","updated":1484328279531}
-{"name":"999999","city":"9999999","address":"9999999","orgName":"bbb","minAge":15,"attend":21,"maxCap":30,"date":"Fri Jan 13 14:54:33 GMT+02:00 2017","version":1,"updated":1484331458996,"_id":"q6Rnqq3MccRtCGhM"}
+{"name":"Event 4","date":1480766518026,"minAge":4,"city":"City 4","address":"Adderss 4","attend":25,"maxCap":25,"orgName":"org","canEdit":false,"_id":"aTpV4zh2dwpfKn3N","updated":1480782987058}
+{"_id":"bmnSJC1pQUX3x5CZ","name":"Wellcome Back Party","city":"Cluj","address":"Acolo 2","orgName":"o","minAge":18,"attend":200,"maxCap":500,"date":"Sat Jan 28 22:20:45 GMT+02:00 2017","updated":1484672848008}
+{"_id":"eR41HmgrOfOgFFdk","name":"Craciun","city":"Medias","address":"Govora","orgName":"o","minAge":18,"attend":21,"maxCap":30,"date":"Wed May 31 17:30:43 GMT+03:00 2017","updated":1484672777708}
+{"_id":"f68pKSjjcyWlLjZK","name":"gggg","city":"asefg","address":"sfgs","orgName":"o","minAge":12,"attend":15,"maxCap":22,"date":"Sat Sep 30 19:07:33 GMT+03:00 2017","updated":1484672861492}
+{"_id":"lqIvpQePXO9W1lDr","name":"Paste","city":"Cluj","address":"Memo 2","orgName":"o","minAge":12,"attend":20,"maxCap":60,"date":"Fri May 26 16:21:29 GMT+03:00 2017","updated":1484672733092}
+{"_id":"q6Rnqq3MccRtCGhM","name":"999999","city":"9999999","address":"9999999","orgName":"bbb","minAge":15,"attend":22,"maxCap":30,"date":"Fri May 12 19:14:00 GMT+03:00 2017","updated":1484673245151}
+{"name":"Event 0","date":1480766518019,"minAge":0,"city":"City 0","address":"Adderss 0","attend":5,"maxCap":5,"orgName":"org","canEdit":false,"_id":"vPvxIPYA5dApQQjD","updated":1481394332436}
+{"name":"Event 2","date":1480766518023,"minAge":2,"city":"City 2","address":"Adderss 2","attend":15,"maxCap":15,"orgName":"org","canEdit":false,"_id":"vYptTMROWHDz212E","updated":1484509951205}

@@ -4,6 +4,7 @@ import {login} from './service';
 import {getLogger, registerRightAction, issueText} from '../utils/utils';
 import styles from '../utils/styles';
 
+
 const log = getLogger('Login');
 
 const LOGIN_ROUTE = 'auth/login';
@@ -58,11 +59,10 @@ export class Login extends Component {
                 
                 <Text>Password</Text>
                 <TextInput secureTextEntry={true} onChangeText={(text) => this.setState({...this.state, password: text})}/>
-    
-    
+                
                 <TouchableNativeFeedback onPress={() => {this.props.onRegisterPress();}} background={TouchableNativeFeedback.SelectableBackground()}>
-                    <View style={{width: 150, height: 100, backgroundColor: 'red'}}>
-                        <Text style={{margin: 30}}>Register</Text>
+                    <View style={localStyle.button}>
+                        <Text style={localStyle.registerText}>Register</Text>
                     </View>
                 </TouchableNativeFeedback>
                 
@@ -106,3 +106,19 @@ export class Login extends Component {
         });
     }
 }
+
+
+
+const localStyle = StyleSheet.create({
+    button: {
+        margin: 20,
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: 'gray',
+        // textAlign: 'center',
+    },
+    registerText:{
+        color: 'white',
+        textAlign: 'center',
+    }
+});

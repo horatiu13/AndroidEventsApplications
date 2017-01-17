@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.example.hlupean.eventsimple.controller.ControllerAuth;
 import com.example.hlupean.eventsimple.net.NetController;
@@ -33,6 +34,8 @@ public class MainActivity extends Activity
         ctrlUser.setContext(this);
         NetController.getInstance().setContext(this);
 
+        final ProgressBar pbLogin = (ProgressBar) findViewById(R.id.pbLogin);
+        pbLogin.setVisibility(View.GONE);
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnRegister = (Button) findViewById(R.id.btnRegister);
@@ -46,7 +49,9 @@ public class MainActivity extends Activity
             {
                 String username = tbxUser.getText().toString();
                 String password = tbxPass.getText().toString();
-                ctrlUser.Login(username, password);
+//                pbLogin.setVisibility(View.VISIBLE);
+                ctrlUser.Login(username, password, pbLogin);
+//                findViewById(R.id.pbLogin).setVisibility(View.VISIBLE);
             }
         });
 
@@ -61,8 +66,5 @@ public class MainActivity extends Activity
                 startActivity(intent);
             }
         });
-
-
-
     }
 }

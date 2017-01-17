@@ -11,4 +11,5 @@
     <string name = "birth_date">Birth Date</string>
     <string name = "pick_a_date">Pick a date</string>
     <string name = "organizer">Organizer</string>
+    <string name = "attend">Attend</string>
 </resources>
